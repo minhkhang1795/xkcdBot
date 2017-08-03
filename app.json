@@ -1,7 +1,7 @@
 {
-  "name": "Cool guy bot",
-  "description": "Basic Groupme Bot written in Node",
+  "name": "xkcd",
+  "description": "xkcd bot written in Node",
   "repository": "https://github.com/petemcgrath/cool-guy-bot",
-  "logo": "http://www.tailgate365.com/wp-content/uploads/2011/06/tom-hanks-906.jpg",
+  "logo": "https://i.groupme.com/256x256.png.ceb8e273046c4c52be81b679ffb44f74",
   "keywords": []
 }
