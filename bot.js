@@ -94,10 +94,9 @@ function getImageLinkFromJson(u) {
       return body.img;
     } else {
       return 'Can\'t find that comic!\n' + response;
-      console.log(response);
     }
   })
-  return 'Can\'t find that comic!';
+  return 'Can\'t find that comic!!!';
 }
 
 exports.respond = respond;
