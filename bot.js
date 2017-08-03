@@ -6,9 +6,9 @@ var botName = process.env.BOT_NAME;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = '/^\@' + BOT_NAME + ' guy$/';
+      botRegex = new RegExp('^\@' + BOT_NAME +' guy$');
 
-  if (request.text && botRegex.test(request.text)) {
+  if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
     postMessage();
     this.res.end();
