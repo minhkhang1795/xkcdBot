@@ -91,9 +91,9 @@ function getImageLinkFromJson(u) {
     json: true
   }, function (error, response, body) {
 
-    // if (!error && response.statusCode === 200) {
-      result = response.statusCode;
-    // }
+    if (!error && response.statusCode === 200) {
+      result = body.img;
+    }
     return result;
   })
 }
