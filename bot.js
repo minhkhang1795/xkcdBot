@@ -1,16 +1,22 @@
 var HTTPS = require('https');
 var cool = require('cool-ascii-faces');
+var help = 'Hi,\n I\'m xkcd. I\'m here to make sure to get the newest comic for you guys. \n Type @xkcd help for a list of command:'
 
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = new RegExp('^\@' + botName +' guy$');
+    botRegexSample = new RegExp('^\@' + botName + ' guy$');
+    botRegexHelp = new RegExp('^\@' + botName + ' help$');
 
-  if(request.text && botRegex.test(request.text)) {
+  if (request.text) {
     this.res.writeHead(200);
-    postMessage();
+    if (botRegexSample.test(request.text)) {
+      postMessageSample();
+    } else if (botRegexHelp.test(request.text)) {
+      postMessageHelp;
+    }
     this.res.end();
   } else {
     console.log("don't care");
@@ -19,8 +25,8 @@ function respond() {
   }
 }
 
-function postMessage() {
-  var botResponse, options, body, botReq;
+function postMessageSample() {
+  var botResponse, options, body;
 
   botResponse = cool();
 
@@ -31,28 +37,52 @@ function postMessage() {
   };
 
   body = {
-    "bot_id" : botID,
-    "text" : botResponse
+    "bot_id": botID,
+    "text": botResponse
   };
 
   console.log('sending ' + botResponse + ' to ' + botID);
 
-  botReq = HTTPS.request(options, function(res) {
-      if(res.statusCode == 202) {
-        //neat
-      } else {
-        console.log('rejecting bad status code ' + res.statusCode);
-      }
+  postError(options, body);
+}
+
+function postMessageHelp() {
+  var botResponse, options, body, botReq;
+
+  botResponse = help();
+
+  options = {
+    hostname: 'api.groupme.com',
+    path: '/v3/bots/post',
+    method: 'POST'
+  };
+
+  body = {
+    "bot_id": botID,
+    "text": botResponse
+  };
+
+  console.log('sending ' + botResponse + ' to ' + botID);
+
+  postError(options, body);
+}
+
+function postError(options, body) {
+  var botReq = HTTPS.request(options, function (res) {
+    if (res.statusCode == 202) {
+      //neat
+    } else {
+      console.log('rejecting bad status code ' + res.statusCode);
+    }
   });
 
-  botReq.on('error', function(err) {
-    console.log('error posting message '  + JSON.stringify(err));
+  botReq.on('error', function (err) {
+    console.log('error posting message ' + JSON.stringify(err));
   });
-  botReq.on('timeout', function(err) {
-    console.log('timeout posting message '  + JSON.stringify(err));
+  botReq.on('timeout', function (err) {
+    console.log('timeout posting message ' + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
 }
-
 
 exports.respond = respond;
