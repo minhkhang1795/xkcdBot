@@ -1,6 +1,6 @@
 var HTTPS = require('https');
 var hi = require('cool-ascii-faces');
-var help = 'Hi,'; //\nI\'m xkcd. I\'m here to make sure you guys get the newest comic.\nType @xkcd help for a list of commands:';
+var help = 'Hi'; //\nI\'m xkcd. I\'m here to make sure you guys get the newest comic.\nType @xkcd help for a list of commands:';
 
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
