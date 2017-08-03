@@ -94,9 +94,8 @@ function getImageLinkFromJson(u) {
     // if (!error && response.statusCode === 200) {
       result = response.statusCode;
     // }
+    return result;
   })
-
-  return result;
 }
 
 exports.respond = respond;
