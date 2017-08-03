@@ -1,6 +1,7 @@
 var HTTPS = require('https');
 var hi = require('cool-ascii-faces');
 var help = 'Hi,\nI\'m xkcd. I\'m here to make sure you guys get the newest comic.\nType \'@xkcd help\' for a list of commands:';
+var imgLink = 'https://imgs.xkcd.com/comics/bun_alert.png';
 
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
@@ -9,6 +10,7 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]),
     botRegexSample = new RegExp('^\@' + botName + ' hi$');
     botRegexHelp = new RegExp('^\@' + botName + ' help$');
+    botRegexImgLink = new RegExp('^\@' + botName + ' current$');
 
   if (request.text) {
     this.res.writeHead(200);
@@ -25,31 +27,29 @@ function respond() {
   }
 }
 
+function postMessageCurrent() {
+  var botResponse;
+
+  botResponse = imgLink;
+  post(botResponse);
+}
+
 function postMessageSample() {
-  var botResponse, options, body;
+  var botResponse;
 
   botResponse = hi();
-
-  options = {
-    hostname: 'api.groupme.com',
-    path: '/v3/bots/post',
-    method: 'POST'
-  };
-
-  body = {
-    "bot_id": botID,
-    "text": botResponse
-  };
-
-  console.log('sending ' + botResponse + ' to ' + botID);
-
-  post(options, body);
+  post(botResponse);
 }
 
 function postMessageHelp() {
-  var botResponse, options, body, botReq;
+  var botResponse;
 
   botResponse = help;
+  post(botResponse);
+}
+
+function post(botResponse) {
+  var options, body;
 
   options = {
     hostname: 'api.groupme.com',
@@ -63,11 +63,6 @@ function postMessageHelp() {
   };
 
   console.log('sending ' + botResponse + ' to ' + botID);
-
-  post(options, body);
-}
-
-function post(options, body) {
   var botReq = HTTPS.request(options, function (res) {
     if (res.statusCode == 202) {
       //neat
