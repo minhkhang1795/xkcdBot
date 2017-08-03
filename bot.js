@@ -43,7 +43,7 @@ function postMessageSample() {
 
   console.log('sending ' + botResponse + ' to ' + botID);
 
-  postError(options, body);
+  post(options, body);
 }
 
 function postMessageHelp() {
@@ -64,10 +64,10 @@ function postMessageHelp() {
 
   console.log('sending ' + botResponse + ' to ' + botID);
 
-  postError(options, body);
+  post(options, body);
 }
 
-function postError(options, body) {
+function post(options, body) {
   var botReq = HTTPS.request(options, function (res) {
     if (res.statusCode == 202) {
       //neat
