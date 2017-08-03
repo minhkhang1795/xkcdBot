@@ -11,7 +11,7 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]),
     botRegexSample = new RegExp('^\@' + botName + ' hi$');
   botRegexHelp = new RegExp('^\@' + botName + ' help$');
-  botRegexImgLink = new RegExp('^\@' + botName + ' current$');
+  botRegexCurrent = new RegExp('^\@' + botName + ' current$');
 
   if (request.text) {
     this.res.writeHead(200);
@@ -19,7 +19,7 @@ function respond() {
       postMessageSample();
     } else if (botRegexHelp.test(request.text)) {
       postMessageHelp();
-    } else if (botRegexImgLink.test(request.text)) {
+    } else if (botRegexCurrent.test(request.text)) {
       postMessageCurrent();
     }
     this.res.end();
