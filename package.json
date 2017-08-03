@@ -10,7 +10,8 @@
     "request": "^2.81.0"
   },
   "engines": {
-    "node": "0.10.x"
+    "node": "6.11.1",
+    "npm": "5.3.x"
   },
   "repository": {
     "type": "git",
