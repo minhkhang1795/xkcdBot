@@ -92,6 +92,8 @@ function getImageLinkFromJson(u) {
 
     if (!error && response.statusCode === 200) {
       return body.img;
+    } else {
+      console.log(response);
     }
   })
   return 'Can\'t find that comic!';
