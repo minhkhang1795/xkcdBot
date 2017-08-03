@@ -3,14 +3,15 @@ var hi = require('cool-ascii-faces');
 var help = 'Hi,\nI\'m xkcd. I\'m here to make sure you guys get the newest comic.\nType \'@xkcd help\' for a list of commands:';
 var imgLink = 'https://imgs.xkcd.com/comics/bun_alert.png';
 
+var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
     botRegexSample = new RegExp('^\@' + botName + ' hi$');
-    botRegexHelp = new RegExp('^\@' + botName + ' help$');
-    botRegexImgLink = new RegExp('^\@' + botName + ' current$');
+  botRegexHelp = new RegExp('^\@' + botName + ' help$');
+  botRegexImgLink = new RegExp('^\@' + botName + ' current$');
 
   if (request.text) {
     this.res.writeHead(200);
@@ -32,7 +33,7 @@ function respond() {
 function postMessageCurrent() {
   var botResponse;
 
-  botResponse = imgLink;
+  botResponse = getImageLinkFromJson(currentComicJsonUrl);
   post(botResponse);
 }
 
@@ -80,6 +81,24 @@ function post(botResponse) {
     console.log('timeout posting message ' + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
+}
+
+function getImageLinkFromJson(url) {
+  http.get(url, function (res) {
+    var body = '';
+
+    res.on('data', function (chunk) {
+      body += chunk;
+    });
+
+    res.on('end', function () {
+      var response = JSON.parse(body);
+      console.log("Got a response: ", response);
+      return response.img;
+    });
+  }).on('error', function (e) {
+    console.log("Got an error: ", e);
+  });
 }
 
 exports.respond = respond;
