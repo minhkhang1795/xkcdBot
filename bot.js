@@ -1,6 +1,6 @@
 var HTTPS = require('https');
 var hi = require('cool-ascii-faces');
-var help = 'Hi,\nI\'m xkcd. I\'m here to make sure you guys get the newest comic.\nType \'@xkcd help\' for a list of commands:\n1) @xkcd help: you know what it is!!!\n2) @xkcd newest: show newest comic';
+var help = 'Hi,\nI\'m xkcd. I\'m here to make sure you guys get the newest comic.\nType \'@xkcd help\' for a list of commands:\n1) @xkcd newest: show newest comic.\nI\'m still dumb. I\'ll only send you an xkcd daily at a specific time.';
 var imgLink = 'https://imgs.xkcd.com/comics/bun_alert.png';
 
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
@@ -20,18 +20,12 @@ function respond() {
     } else if (botRegexHelp.test(request.text)) {
       postMessageHelp();
     } else if (botRegexCurrent.test(request.text)) {
-      postMessageCurrent();
+      postMessageCurrent(currentComicJsonUrl);
     }
   } else {
     console.log("don't care");
   }
   this.res.end();
-}
-
-function postMessageCurrent() {
-  var botResponse;
-
-  botResponse = getImageLinkFromJson(currentComicJsonUrl);
 }
 
 function postMessageSample() {
@@ -80,7 +74,7 @@ function post(botResponse) {
   botReq.end(JSON.stringify(body));
 }
 
-function getImageLinkFromJson(u) {
+function postMessageCurrent(u) {
   var request = require("request");
   var result = 'Can\'t find that comic!!!';
   request({
