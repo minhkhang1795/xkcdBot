@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var botID = process.env.BOT_ID;
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
 
 function postMessageCurrent(u) {
@@ -40,6 +41,7 @@ function post(botResponse) {
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
     }
+    process.exit();
   });
 
   botReq.on('error', function (err) {
@@ -49,7 +51,6 @@ function post(botResponse) {
     console.log('timeout posting message ' + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
-  process.exit();
 }
 
 postMessageCurrent(currentComicJsonUrl);
