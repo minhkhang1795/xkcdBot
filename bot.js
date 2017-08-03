@@ -20,7 +20,7 @@ function respond() {
     } else if (botRegexHelp.test(request.text)) {
       postMessageHelp();
     } else if (botRegexCurrent.test(request.text)) {
-      // postMessageCurrent();
+      postMessageCurrent();
     }
     this.res.end();
   } else {
@@ -30,12 +30,12 @@ function respond() {
   }
 }
 
-// function postMessageCurrent() {
-//   var botResponse;
+function postMessageCurrent() {
+  var botResponse;
 
-//   botResponse = getImageLinkFromJson(currentComicJsonUrl);
-//   post(botResponse);
-// }
+  botResponse = getImageLinkFromJson(currentComicJsonUrl);
+  post(botResponse);
+}
 
 function postMessageSample() {
   var botResponse;
@@ -83,18 +83,18 @@ function post(botResponse) {
   botReq.end(JSON.stringify(body));
 }
 
-// function getImageLinkFromJson(u) {
-//   var request = require("request");
-//   request({
-//     url: u,
-//     json: true
-//   }, function (error, response, body) {
+function getImageLinkFromJson(u) {
+  var request = require("request");
+  request({
+    url: u,
+    json: true
+  }, function (error, response, body) {
 
-//     if (!error && response.statusCode === 200) {
-//       return body.img;
-//     }
-//   })
-//   return 'Can\'t find that comic!';
-// }
+    if (!error && response.statusCode === 200) {
+      return body.img;
+    }
+  })
+  return 'Can\'t find that comic!';
+}
 
 exports.respond = respond;
