@@ -49,7 +49,7 @@ function postMessageSample() {
 function postMessageHelp() {
   var botResponse, options, body, botReq;
 
-  botResponse = help();
+  botResponse = help;
 
   options = {
     hostname: 'api.groupme.com',
