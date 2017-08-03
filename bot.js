@@ -83,23 +83,17 @@ function post(botResponse) {
   botReq.end(JSON.stringify(body));
 }
 
-function getImageLinkFromJson(url) {
-  var response;
-  http.get(url, function (res) {
-    var body = '';
+function getImageLinkFromJson(u) {
+  request({
+    url: u,
+    json: true
+  }, function (error, response, body) {
 
-    res.on('data', function (chunk) {
-      body += chunk;
-    });
+    if (!error && response.statusCode === 200) {
+      return body.img;
+    }
+  })
 
-    res.on('end', function () {
-      response = JSON.parse(body);
-      console.log("Got a response: ", response);
-    });
-  }).on('error', function (e) {
-    console.log("Got an error: ", e);
-  });
-  return response.img;
 }
 
 exports.respond = respond;
