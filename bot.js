@@ -1,6 +1,6 @@
 var HTTPS = require('https');
 var hi = require('cool-ascii-faces');
-var help = new RegExp('Hi,\nI\'m xkcd. I\'m here to make sure you guys get the newest comic.\nType \'@xkcd help\' for a list of commands:\n1) @xkcd newest: show newest comic.\nI\'m still dumb. I\'ll only send you an xkcd daily at a specific time.');
+var help = "Hi,\nI'm xkcd. I'm here to make sure you guys get the newest comic.\nType '@xkcd help' for a list of commands:\n1) @xkcd newest: show newest comic.\nSorry, but I'm still dumb, and I'll only send you an xkcd at a specific time daily.";
 var imgLink = 'https://imgs.xkcd.com/comics/bun_alert.png';
 
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
