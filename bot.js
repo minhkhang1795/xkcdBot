@@ -94,7 +94,7 @@ function getImageLinkFromJson(u) {
     if (!error && response.statusCode === 200) {
       console.log(body.img);
       // console.log(response);
-      result = body.img;
+      // result = body.img;
     }
     return result;
   })
