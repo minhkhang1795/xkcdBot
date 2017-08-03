@@ -18,6 +18,8 @@ function respond() {
       postMessageSample();
     } else if (botRegexHelp.test(request.text)) {
       postMessageHelp();
+    } else if (botRegexImgLink.test(request.text)) {
+      postMessageCurrent();
     }
     this.res.end();
   } else {
