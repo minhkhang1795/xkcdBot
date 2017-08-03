@@ -84,6 +84,7 @@ function post(botResponse) {
 }
 
 function getImageLinkFromJson(url) {
+  var response;
   http.get(url, function (res) {
     var body = '';
 
@@ -92,13 +93,13 @@ function getImageLinkFromJson(url) {
     });
 
     res.on('end', function () {
-      var response = JSON.parse(body);
+      response = JSON.parse(body);
       console.log("Got a response: ", response);
-      return response.img;
     });
   }).on('error', function (e) {
     console.log("Got an error: ", e);
   });
+  return response.img;
 }
 
 exports.respond = respond;
