@@ -85,17 +85,20 @@ function post(botResponse) {
 
 function getImageLinkFromJson(u) {
   var request = require("request");
+  var result;
   request({
     url: u,
     json: true
   }, function (error, response, body) {
 
     if (!error && response.statusCode === 200) {
-      return body.img;
+      result = response.img;
     } else {
       return 'Can\'t find that comic!\n' + response;
     }
   })
+  if (result != null)
+    return result;
   return 'Can\'t find that comic!!!';
 }
 
