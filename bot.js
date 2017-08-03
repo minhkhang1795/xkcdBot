@@ -1,5 +1,5 @@
 var HTTPS = require('https');
-var cool = require('cool-ascii-faces');
+var hi = require('cool-ascii-faces');
 var help = 'Hi,\n I\'m xkcd. I\'m here to make sure to get the newest comic for you guys. \n Type @xkcd help for a list of command:'
 
 var botID = process.env.BOT_ID;
@@ -7,7 +7,7 @@ var botName = process.env.BOT_NAME;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-    botRegexSample = new RegExp('^\@' + botName + ' guy$');
+    botRegexSample = new RegExp('^\@' + botName + ' hi$');
     botRegexHelp = new RegExp('^\@' + botName + ' help$');
 
   if (request.text) {
@@ -15,7 +15,7 @@ function respond() {
     if (botRegexSample.test(request.text)) {
       postMessageSample();
     } else if (botRegexHelp.test(request.text)) {
-      postMessageHelp;
+      postMessageHelp();
     }
     this.res.end();
   } else {
@@ -28,7 +28,7 @@ function respond() {
 function postMessageSample() {
   var botResponse, options, body;
 
-  botResponse = cool();
+  botResponse = hi();
 
   options = {
     hostname: 'api.groupme.com',
