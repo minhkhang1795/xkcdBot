@@ -84,6 +84,7 @@ function post(botResponse) {
 }
 
 function getImageLinkFromJson(u) {
+  var request = require("request");
   request({
     url: u,
     json: true
@@ -93,7 +94,7 @@ function getImageLinkFromJson(u) {
       return body.img;
     }
   })
-
+  return 'Can\'t find that comic!';
 }
 
 exports.respond = respond;
