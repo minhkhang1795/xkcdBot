@@ -42,7 +42,7 @@ function respond() {
       var numbers = (request.text + "").match('\d+');
       var number = parseInt(numbers[1]);
       if (number <= getCurrentNumber() && number > 0)
-        postXkcd(getLinkForNumber(parseInt(numbers[0])));
+        postXkcd(getLinkForNumber(number));
       else
         post(ComicNotFound);
     }
