@@ -5,7 +5,7 @@ var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
 
 function postMessageCurrent(u) {
   var today = new Date();
-  if (today.getDay() != 1 && today.getDay() != 3 && today.getDate() != 5) {
+  if (today.getDay() != 0 && today.getDay() != 3 && today.getDate() != 5) {
     process.exit();
     return;
   }
