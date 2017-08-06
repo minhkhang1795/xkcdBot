@@ -22,7 +22,6 @@ function respond() {
     botRegexNumber = new RegExp('^\@' + botName + ' \d+'),
     botRegexNotFound = new RegExp('^\@' + botName + '*');
 
-  var aoo = 1;
   this.res.writeHead(200);
   if (request.text) {
     if (botRegexHi.test(request.text)) {
@@ -39,12 +38,8 @@ function respond() {
       postXkcd(getLinkForNumber(randomNumber));
 
     } else if (botRegexNumber.test(request.text)) {
-      // postMessage(getLinkForNumber(number));
       var numbers = (request.text + "").match('\d+');
-      postXkcd(getLinkForNumber(numbers[0]));
-      aoo++;
-      // console.log(num);
-      // postXkcd(getLinkForNumber(23));
+      postXkcd(getLinkForNumber(parseInt(numbers[0])));
     }
     // } else if (botRegexNotFound.test(request.text)) {
     //   // Check spam
@@ -56,7 +51,6 @@ function respond() {
     console.log("don't care");
   }
   this.res.end();
-  console.log(aoo);
 }
 
 function post(botResponse, alt) {
