@@ -2,12 +2,11 @@
 
 var botID = process.env.BOT_ID;
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
-var hi = require('cool-ascii-faces');
 var fs = require('fs');
 var fileName = './values.json';
 var file = require(fileName);
 
-function postXkcd(link) {
+function postXkcd() {
   var today = new Date();
   if (today.getDay() != 0 && today.getDay() != 3 && today.getDate() != 5 || file.stop) {
     process.exit();
@@ -17,8 +16,9 @@ function postXkcd(link) {
   var request = require("request");
   var result = 'Can\'t find today\'s comic!!!';
   var alt;
+
   request({
-    url: link,
+    url: currentComicJsonUrl,
     json: true
   }, function (error, response, body) {
 
@@ -71,4 +71,4 @@ function post(botResponse, alt) {
   botReq.end(JSON.stringify(body));
 }
 
-postXkcd(currentComicJsonUrl);
+postXkcd();

@@ -18,16 +18,6 @@ var file = require(fileName);
 var fiveMin = 5 * 60 * 1000;
 
 function respond() {
-  if (file.stop) {
-    if (botRegexStart.test(request.text)) {
-      file.stop = false;
-      updateJson();
-      post(start);
-    }
-    return;
-  }
-    
-
   var request = JSON.parse(this.req.chunks[0]),
     botRegexHi = new RegExp('^\@' + botName + ' hi$'),
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
@@ -39,6 +29,15 @@ function respond() {
     botRegexStop = new RegExp('^\@' + botName + ' stop123$'),
     botRegexStart = new RegExp('^\@' + botName + ' start123$'),
     regexNumbers = new RegExp('\\d+');
+    
+  if (file.stop) {
+    if (botRegexStart.test(request.text)) {
+      file.stop = false;
+      updateJson();
+      post(start);
+    }
+    return;
+  }
 
   this.res.writeHead(200);
   if (request.text) {
@@ -135,7 +134,7 @@ function postXkcd(link) {
 
 function postXkcdRandom() {
   var request = require("request");
-  var result = 10;
+  var result = 2000;
   
   request({
     url: currentComicJsonUrl,
