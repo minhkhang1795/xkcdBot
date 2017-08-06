@@ -40,11 +40,11 @@ function respond() {
 
     } else if (botRegexNumber.test(request.text)) {
       // postMessage(getLinkForNumber(number));
-      // var numbers = (request.text + "").match('\d+');
-      // postXkcd(getLinkForNumber(numbers[0]));
+      var numbers = (request.text + "").match('\d+');
+      postXkcd(getLinkForNumber(numbers[0]));
       aoo++;
       // console.log(num);
-      postXkcd(getLinkForNumber(23));
+      // postXkcd(getLinkForNumber(23));
     }
     // } else if (botRegexNotFound.test(request.text)) {
     //   // Check spam
