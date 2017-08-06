@@ -107,7 +107,7 @@ function postXkcd(link) {
 
     if (!error && response.statusCode === 200) {
       result = body.img;
-      alt = "#" + body.num + " " + body.alt;
+      alt = "#" + body.num + " " + body.title + ": " + body.alt;
     }
     post(result, alt);
   })
