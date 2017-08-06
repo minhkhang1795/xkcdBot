@@ -53,7 +53,6 @@ function post(botResponse, alt) {
     method: 'POST'
   };
   
-
   body = {
     "bot_id": botID,
     "text": botResponse
@@ -63,8 +62,8 @@ function post(botResponse, alt) {
   var botReq = HTTPS.request(options, function (res) {
     if (res.statusCode == 202) {
       // Success
-      if (alt != null)
-        post(alt);
+      // if (alt != null)
+        // post(alt);
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
     }
@@ -76,7 +75,7 @@ function post(botResponse, alt) {
   botReq.on('timeout', function (err) {
     console.log('timeout posting message ' + JSON.stringify(err));
   });
-  botReq.end(JSON.parse(body));
+  botReq.end(JSON.stringify(body));
 }
 
 function postXkcd(link) {
