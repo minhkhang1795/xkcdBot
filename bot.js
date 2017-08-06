@@ -10,7 +10,7 @@ var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd 
   "\n3) @xkcd [NUMBER] - show comic [NUMBER].";
 var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a list of commands";
 var currentComicJsonUrl = "https://xkcd.com/info.0.json";
-var ComicNotFound = "Can't find that comic!!!";
+var comicNotFound = "Can't find that comic!!!";
 var fileName = './values.json';
 var file = require(fileName);
 var fiveMin = 5 * 60 * 1000;
@@ -47,10 +47,10 @@ function respond() {
       if (number <= getCurrentNumber() && number > 0)
         postXkcd(getLinkForNumber(number));
       else
-        post(ComicNotFound);
+        post(comicNotFound);
     } else if (botRegexNotFound.test(request.text)) {
       // Check spam
-      if (getTimeStampDif() > 20000)
+      if (getTimeStampDif() > 10000)
         post(commandNotFound);
     }
   } else {
@@ -132,8 +132,12 @@ function getTimeStampDif() {
     file.spamCheckInterval.timeStamp = currentTimeStamp;
     updateJson();
     return 0;
+  } else {
+    file.spamCheckInterval.timeStamp = currentTimeStamp;
+    updateJson();
+    return currentTimeStamp - oldTimeStamp;
   }
-  return currentTimeStamp - oldTimeStamp;
+  
 }
 
 function updateJson() {
