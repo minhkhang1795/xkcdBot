@@ -8,6 +8,7 @@ var file = require(fileName);
 
 function postXkcd() {
   var today = new Date();
+  console.log('file.stop = ' + file.stop);
   if (today.getDay() != 0 && today.getDay() != 3 && today.getDate() != 5 || file.stop) {
     process.exit();
     return;
