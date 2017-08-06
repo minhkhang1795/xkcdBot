@@ -18,8 +18,15 @@ var file = require(fileName);
 var fiveMin = 5 * 60 * 1000;
 
 function respond() {
-  if (file.stop)
+  if (file.stop) {
+    if (botRegexStart.test(request.text)) {
+      file.stop = false;
+      updateJson();
+      post(start);
+    }
     return;
+  }
+    
 
   var request = JSON.parse(this.req.chunks[0]),
     botRegexHi = new RegExp('^\@' + botName + ' hi$'),
@@ -45,8 +52,7 @@ function respond() {
       postXkcd(currentComicJsonUrl);
 
     } else if (botRegexRandom.test(request.text)) {
-      var randomNumber = getRandomArbitrary(1, getCurrentNumber(currentComicJsonUrl));
-      postXkcd(getLinkForNumber(randomNumber));
+      postXkcdRandom();
 
     } else if (botRegexNumber.test(request.text)) {
       var numbers = request.text.match(regexNumbers);
@@ -57,11 +63,6 @@ function respond() {
       file.stop = true;
       updateJson();
       post(stop);
-
-    } else if (botRegexStart.test(request.text)) {
-      file.stop = false;
-      updateJson();
-      post(start);
 
     } else if (botRegexData.test(request.text)) {
       post(JSON.stringify(file));
@@ -131,7 +132,7 @@ function postXkcd(link) {
   })
 }
 
-function getCurrentNumber(link) {
+function postXkcdRandom() {
   var request = require("request");
   var result = 10;
   var alt;
@@ -140,10 +141,11 @@ function getCurrentNumber(link) {
     json: true
   }, function (error, response, body) {
 
-    if (!error && response.statusCode === 200) {
+    if (!error && response.statusCode === 200)
       result = body.num;
-    }
-    return result;
+    
+    var randomNumber = getRandomArbitrary(1, result);
+    postXkcd(getLinkForNumber(randomNumber));
   })
 }
 

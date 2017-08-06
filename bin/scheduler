@@ -2,10 +2,14 @@
 
 var botID = process.env.BOT_ID;
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
+var hi = require('cool-ascii-faces');
+var fs = require('fs');
+var fileName = './values.json';
+var file = require(fileName);
 
 function postXkcd(link) {
   var today = new Date();
-  if (today.getDay() != 0 && today.getDay() != 3 && today.getDate() != 5) {
+  if (today.getDay() != 0 && today.getDay() != 3 && today.getDate() != 5 || file.stop) {
     process.exit();
     return;
   }
