@@ -24,7 +24,7 @@ function respond() {
   this.res.writeHead(200);
   if (request.text) {
     if (botRegexHi.test(request.text)) {
-      post(hi.toString("utf8"));
+      post(hi);
     } else if (botRegexHelp.test(request.text)) {
       post(help);
     } else if (botRegexCurrent.test(request.text)) {
@@ -55,11 +55,12 @@ function post(botResponse, alt) {
   
   body = {
     "bot_id": botID,
-    "text": "" + botResponse
+    "text": botResponse
   };
 
   console.log('sending ' + botResponse + ' to ' + botID);
   var botReq = HTTPS.request(options, function (res) {
+    res.setEncoding('utf8');
     if (res.statusCode == 202) {
       // Success
       // if (alt != null)
