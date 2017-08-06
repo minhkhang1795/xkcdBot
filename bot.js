@@ -49,7 +49,7 @@ function respond() {
       else
         post(comicNotFound);
     } else if (botRegexData.test(request.text)) {
-      postMessage(JSON.stringify(file));
+      post(JSON.stringify(file));
     } else if (botRegexNotFound.test(request.text)) {
       // Check spam
       if (!isSpam())
@@ -136,7 +136,7 @@ function isSpam() {
     return false;
   } else {
     return true;
-  } 
+  }
 }
 
 function updateJson() {
