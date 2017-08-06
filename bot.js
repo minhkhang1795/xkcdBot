@@ -24,7 +24,7 @@ function respond() {
   this.res.writeHead(200);
   if (request.text) {
     if (botRegexHi.test(request.text)) {
-      post(hi());
+      post(hi);
     } else if (botRegexHelp.test(request.text)) {
       post(help);
     } else if (botRegexCurrent.test(request.text)) {
