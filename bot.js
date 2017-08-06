@@ -22,10 +22,7 @@ function respond() {
     botRegexRandom = new RegExp('^\@' + botName + ' random$'),
     botRegexNumber = new RegExp('^\@' + botName + ' \\d+'),
     botRegexNotFound = new RegExp('^\@' + botName + '*'),
-    regexNumbers = new RegExp('\d+');
-
-  console.log(request.text);
-  console.log(botRegexNumber.test(request.text));
+    regexNumbers = new RegExp('\\d+');
 
   this.res.writeHead(200);
   if (request.text) {
@@ -43,15 +40,13 @@ function respond() {
       postXkcd(getLinkForNumber(randomNumber));
 
     } else if (botRegexNumber.test(request.text)) {
-
-      postXkcd(getLinkForNumber(26));
-      // var numbers = request.text.match(regexNumbers);
-      // console.log(numbers);
-      // var number = parseInt(numbers[1]);
-      // if (number <= getCurrentNumber() && number > 0)
-      //   postXkcd(getLinkForNumber(number));
-      // else
-      //   post(ComicNotFound);
+      var numbers = request.text.match(regexNumbers);
+      console.log(numbers);
+      var number = parseInt(numbers[1]);
+      if (number <= getCurrentNumber() && number > 0)
+        postXkcd(getLinkForNumber(number));
+      else
+        post(ComicNotFound);
     }
     // } else if (botRegexNotFound.test(request.text)) {
     //   // Check spam
