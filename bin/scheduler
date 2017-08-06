@@ -3,7 +3,7 @@
 var botID = process.env.BOT_ID;
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
 
-function postMessageCurrent(u) {
+function postXkcd(link) {
   var today = new Date();
   if (today.getDay() != 0 && today.getDay() != 3 && today.getDate() != 5) {
     process.exit();
@@ -12,27 +12,30 @@ function postMessageCurrent(u) {
 
   var request = require("request");
   var result = 'Can\'t find today\'s comic!!!';
+  var alt;
   request({
-    url: u,
+    url: link,
     json: true
   }, function (error, response, body) {
 
     if (!error && response.statusCode === 200) {
-      console.log(body.img);
       result = body.img;
+      alt = body.alt;
     }
-    post(result);
-
+    post(result, alt);
   })
 }
 
-function post(botResponse) {
+function post(botResponse, alt) {
   var options, body;
 
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
-    method: 'POST'
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    }
   };
 
   body = {
@@ -45,10 +48,14 @@ function post(botResponse) {
   var botReq = HTTPS.request(options, function (res) {
     if (res.statusCode == 202) {
       //neat
+      if (alt != null)
+        post(alt);
+      else
+        process.exit();
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
+      process.exit();
     }
-    process.exit();
   });
 
   botReq.on('error', function (err) {
@@ -60,4 +67,4 @@ function post(botResponse) {
   botReq.end(JSON.stringify(body));
 }
 
-postMessageCurrent(currentComicJsonUrl);
+postXkcd(currentComicJsonUrl);
