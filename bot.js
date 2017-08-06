@@ -44,9 +44,11 @@ function respond() {
       // postXkcd(getLinkForNumber(numbers[0]));
       aoo++;
       // console.log(num);
+      postXkcd(getLinkForNumber(23));
     } else if (botRegexNumber.test(botRegexNotFound)) {
       // Check spam
       aoo += 10;
+      postXkcd(getLinkForNumber(26));
       post(commandNotFound);
     }
   } else {
