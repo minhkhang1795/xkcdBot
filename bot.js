@@ -13,6 +13,7 @@ var currentComicJsonUrl = "https://xkcd.com/info.0.json";
 var ComicNotFound = "Can't find that comic!!!";
 var fileName = './values.json';
 var file = require(fileName);
+var fiveMin = 5 * 60 * 1000;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
@@ -20,7 +21,7 @@ function respond() {
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
     botRegexCurrent = new RegExp('^\@' + botName + ' newest$'),
     botRegexRandom = new RegExp('^\@' + botName + ' random$'),
-    botRegexNumber = new RegExp('^\@' + botName + ' \\d+'),
+    botRegexNumber = new RegExp('^\@' + botName + ' \\d+$'),
     botRegexNotFound = new RegExp('^\@' + botName + '*'),
     regexNumbers = new RegExp('\\d+');
 
@@ -49,7 +50,7 @@ function respond() {
         post(ComicNotFound);
     } else if (botRegexNotFound.test(request.text)) {
       // Check spam
-      if (getTimeStampDif() > 10000)
+      if (getTimeStampDif() > 20000)
         post(commandNotFound);
     }
   } else {
@@ -140,7 +141,7 @@ function updateJson() {
     if (err)
       return console.log(err);
     console.log(JSON.stringify(file));
-    console.log('writing to ' + fileName);
+    console.log(fileName + ' updated');
   });
 }
 
