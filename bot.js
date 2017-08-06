@@ -63,7 +63,7 @@ function post(botResponse, alt) {
     if (res.statusCode == 202) {
       // Success
       if (alt != null)
-        post(alt);
+        post(alt, null);
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
     }
