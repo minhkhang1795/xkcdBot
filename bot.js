@@ -30,7 +30,7 @@ function respond() {
     botRegexStop = new RegExp('^\@' + botName + ' stop123$'),
     botRegexStart = new RegExp('^\@' + botName + ' start123$'),
     regexNumbers = new RegExp('\\d+');
-    
+
   if (file.stop) {
     if (botRegexStart.test(request.text)) {
       file.stop = false;
@@ -141,7 +141,7 @@ function postXkcd(link) {
 function postXkcdRandom() {
   var request = require("request");
   var result = 2000;
-  
+
   request({
     url: currentComicJsonUrl,
     json: true
@@ -149,7 +149,7 @@ function postXkcdRandom() {
 
     if (!error && response.statusCode === 200)
       result = body.num;
-    
+
     var randomNumber = getRandomArbitrary(1, result);
     postXkcd(getLinkForNumber(randomNumber));
   })
@@ -176,9 +176,10 @@ function isSpam() {
 }
 
 function updateJson() {
-  fs.writeFile('values.json', JSON.stringify(file), function (err) {
+  fs.writeFile(fileName, JSON.stringify(file), function (err) {
     if (err)
       return console.log(err);
+    file = require(fileName); 
     console.log(JSON.stringify(file));
     console.log(fileName + ' updated');
   });
