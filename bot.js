@@ -49,7 +49,7 @@ function respond() {
         post(ComicNotFound);
     } else if (botRegexNotFound.test(request.text)) {
       // Check spam
-      if (getTimeStampDif() > 10)
+      if (getTimeStampDif() > 10000)
         post(commandNotFound);
     }
   } else {
