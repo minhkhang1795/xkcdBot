@@ -13,7 +13,7 @@ var currentComicJsonUrl = "https://xkcd.com/info.0.json";
 var comicNotFound = "Can't find that comic!!!";
 var fileName = './values.json';
 var file = require(fileName);
-var fiveMin = 1000;
+var fiveMin = 10 * 1000;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
