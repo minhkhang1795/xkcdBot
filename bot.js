@@ -150,7 +150,8 @@ function postXkcdRandom() {
     if (!error && response.statusCode === 200)
       result = body.num;
 
-    var randomNumber = getRandomArbitrary(1, result);
+    tempCurrent = result;
+    var randomNumber = getRandomArbitrary(1, tempCurrent);
     postXkcd(getLinkForNumber(randomNumber));
   })
 }
@@ -179,7 +180,6 @@ function updateJson() {
   fs.writeFile(fileName, JSON.stringify(file), function (err) {
     if (err)
       return console.log(err);
-    file = require(fileName); 
     console.log(JSON.stringify(file));
     console.log(fileName + ' updated');
   });
