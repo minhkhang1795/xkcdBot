@@ -125,7 +125,7 @@ function getLinkForNumber(number) {
   return "https://xkcd.com/" + number + "/info.0.json";
 }
 
-function checkSpam() {
+function isSpam() {
   var oldTimeStamp = file.spamCheckInterval.timeStamp;
   var currentTimeStamp = new Date().getTime();
   if (oldTimeStamp == null || currentTimeStamp - oldTimeStamp > fiveMin) {
