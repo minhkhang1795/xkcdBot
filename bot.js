@@ -45,12 +45,13 @@ function respond() {
       aoo++;
       // console.log(num);
       postXkcd(getLinkForNumber(23));
-    } else if (botRegexNotFound.test(request.text)) {
-      // Check spam
-      aoo += 10;
-      postXkcd(getLinkForNumber(26));
-      post(commandNotFound);
     }
+    // } else if (botRegexNotFound.test(request.text)) {
+    //   // Check spam
+    //   aoo += 10;
+    //   postXkcd(getLinkForNumber(26));
+    //   post(commandNotFound);
+    // }
   } else {
     console.log("don't care");
   }
