@@ -57,7 +57,7 @@ function respond() {
         postXkcdRandom();
       else {
         var randomNumber = getRandomArbitrary(1, tempCurrent);
-        postXkcd(getLinkForNumber(number));
+        postXkcd(getLinkForNumber(randomNumber));
       }
 
     } else if (botRegexNumber.test(request.text)) {
