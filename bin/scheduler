@@ -81,7 +81,7 @@ function updateJson(body, result, alt) {
     post(result, alt);
     if (err)
       return console.log(err);
-    console.log(JSON.stringify(file));
+    console.log("new json " + JSON.stringify(file));
     console.log(fileName + ' updated');
   });
 
