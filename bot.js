@@ -6,7 +6,7 @@ var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd 
   "\n\nType '@xkcd help' for a list of commands:" +
   "\n1) @xkcd newest - show the newest comic." +
   "\n2) @xkcd random - show a random comic." +
-  "\n3) @xkcd [NUMBER] - show comic #[NUMBER].";
+  "\n3) @xkcd [NUMBER] - show comic [NUMBER].";
 var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a list of commands";
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
 var fs = require('fs');
@@ -63,7 +63,7 @@ function post(botResponse, alt) {
     if (res.statusCode == 202) {
       // Success
       if (alt != null)
-        post(alt, null);
+        post(alt);
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
     }
@@ -92,7 +92,7 @@ function postMessage(link) {
       result = body.img;
       alt = body.alt;
     }
-    post(result, alt);
+    post(alt);
   })
 }
 
