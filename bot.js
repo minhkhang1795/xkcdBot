@@ -41,8 +41,8 @@ function respond() {
 
     } else if (botRegexNumber.test(request.text)) {
       postXkcd(getLinkForNumber(26));
-      var numbers = (request.text + "").match(regexNumbers);
-      console.log(numbers);
+      // var numbers = request.text.match(regexNumbers);
+      // console.log(numbers);
       // var number = parseInt(numbers[1]);
       // if (number <= getCurrentNumber() && number > 0)
       //   postXkcd(getLinkForNumber(number));
