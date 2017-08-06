@@ -20,7 +20,7 @@ function respond() {
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
     botRegexCurrent = new RegExp('^\@' + botName + ' newest$'),
     botRegexRandom = new RegExp('^\@' + botName + ' random$'),
-    botRegexNumber = new RegExp('^\@' + botName + ' \d+$'),
+    botRegexNumber = new RegExp('^\@' + botName + ' \d+'),
     botRegexNotFound = new RegExp('^\@' + botName + '*'),
     regexNumbers = new RegExp('\d+');
 
@@ -40,6 +40,7 @@ function respond() {
       postXkcd(getLinkForNumber(randomNumber));
 
     } else if (botRegexNumber.test(request.text)) {
+      console.log(request.text);
       postXkcd(getLinkForNumber(26));
       // var numbers = request.text.match(regexNumbers);
       // console.log(numbers);
