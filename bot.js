@@ -1,5 +1,5 @@
 var HTTPS = require('https');
-var hi = "If it falls below 20% full, my bag turns red and I start to panic.";//require('cool-ascii-faces');
+var hi = require('cool-ascii-faces');
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
 var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd comic." +
@@ -19,12 +19,12 @@ function respond() {
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
     botRegexCurrent = new RegExp('^\@' + botName + ' newest$'),
     botRegexRandom = new RegExp('^\@' + botName + ' random$');
-    botRegexNumber = new RegExp('^\@' + botName + ' number$');
+  botRegexNumber = new RegExp('^\@' + botName + ' number$');
 
   this.res.writeHead(200);
   if (request.text) {
     if (botRegexHi.test(request.text)) {
-      post(hi);
+      post(hi());
     } else if (botRegexHelp.test(request.text)) {
       post(help);
     } else if (botRegexCurrent.test(request.text)) {
@@ -53,9 +53,9 @@ function post(botResponse, alt) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-  }
+    }
   };
-  
+
   body = {
     "bot_id": botID,
     "text": botResponse
@@ -65,8 +65,8 @@ function post(botResponse, alt) {
   var botReq = HTTPS.request(options, function (res) {
     if (res.statusCode == 202) {
       // Success
-      // if (alt != null)
-        // post(alt);
+      if (alt != null)
+        post(alt);
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
     }
@@ -79,7 +79,6 @@ function post(botResponse, alt) {
     console.log('timeout posting message ' + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
-  console.log(JSON.stringify(body));
 }
 
 function postXkcd(link) {
@@ -92,12 +91,10 @@ function postXkcd(link) {
   }, function (error, response, body) {
 
     if (!error && response.statusCode === 200) {
-      console.log("alt " + typeof body.alt + "\n");
-      console.log("img " + typeof body.img);
       result = body.img;
       alt = body.alt;
     }
-    post(alt);
+    post(body, alt);
   })
 }
 
