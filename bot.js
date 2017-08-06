@@ -94,7 +94,7 @@ function postXkcd(link) {
       result = body.img;
       alt = body.alt;
     }
-    post(body, alt);
+    post(result, alt);
   })
 }
 
