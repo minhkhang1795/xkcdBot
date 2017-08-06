@@ -11,9 +11,9 @@ var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd 
 var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a list of commands";
 var currentComicJsonUrl = "https://xkcd.com/info.0.json";
 var comicNotFound = "Can't find that comic!!!";
-var fileName = './values.json';
+var fileName = './bin/values.json';
 var file = require(fileName);
-var fiveMin = 10 * 1000;
+var fiveMin = 5 * 60 * 1000;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
