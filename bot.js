@@ -20,12 +20,13 @@ function respond() {
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
     botRegexCurrent = new RegExp('^\@' + botName + ' newest$'),
     botRegexRandom = new RegExp('^\@' + botName + ' random$'),
-    botRegexNumber = new RegExp('^\@' + botName + ' \d+'),
+    botRegexNumber = new RegExp('^\@' + botName + ' \\d+'),
     botRegexNotFound = new RegExp('^\@' + botName + '*'),
     regexNumbers = new RegExp('\d+');
 
   console.log(request.text);
   console.log(botRegexNumber.test(request.text));
+
   this.res.writeHead(200);
   if (request.text) {
     if (botRegexHi.test(request.text)) {
