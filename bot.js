@@ -9,7 +9,8 @@ var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd 
   "\n2) @xkcd random - show a random comic." +
   "\n3) @xkcd [NUMBER] - show comic [NUMBER].";
 var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a list of commands";
-var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
+var currentComicJsonUrl = "https://xkcd.com/info.0.json";
+var ComicNotFound = "Can't find that comic!!!";
 var fileName = './values.json';
 var file = require(fileName);
 
@@ -39,7 +40,11 @@ function respond() {
 
     } else if (botRegexNumber.test(request.text)) {
       var numbers = (request.text + "").match('\d+');
-      postXkcd(getLinkForNumber(parseInt(numbers[0])));
+      var number = parseInt(numbers[1]);
+      if (number <= getCurrentNumber() && number > 0)
+        postXkcd(getLinkForNumber(parseInt(numbers[0])));
+      else
+        post(ComicNotFound);
     }
     // } else if (botRegexNotFound.test(request.text)) {
     //   // Check spam
@@ -92,7 +97,7 @@ function post(botResponse, alt) {
 
 function postXkcd(link) {
   var request = require("request");
-  var result = 'Can\'t find that comic!!!';
+  var result = commandNotFound;
   var alt;
   request({
     url: link,
