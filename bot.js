@@ -50,7 +50,7 @@ function respond() {
         post(comicNotFound);
     } else if (botRegexNotFound.test(request.text)) {
       // Check spam
-      if (getTimeStampDif() > 10000)
+      if (checkSpam())
         post(commandNotFound);
     }
   } else {
@@ -125,19 +125,16 @@ function getLinkForNumber(number) {
   return "https://xkcd.com/" + number + "/info.0.json";
 }
 
-function getTimeStampDif() {
+function checkSpam() {
   var oldTimeStamp = file.spamCheckInterval.timeStamp;
   var currentTimeStamp = new Date().getTime();
-  if (oldTimeStamp == null) {
+  if (oldTimeStamp == null || currentTimeStamp - oldTimeStamp > fiveMin) {
     file.spamCheckInterval.timeStamp = currentTimeStamp;
     updateJson();
-    return 0;
+    return false;
   } else {
-    file.spamCheckInterval.timeStamp = currentTimeStamp;
-    updateJson();
-    return currentTimeStamp - oldTimeStamp;
-  }
-  
+    return true;
+  } 
 }
 
 function updateJson() {
