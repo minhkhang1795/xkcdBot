@@ -31,7 +31,6 @@ function respond() {
       postXkcd(currentComicJsonUrl);
     } else if (botRegexRandom.test(request.text)) {
       var randomNumber = getRandomArbitrary(1, getCurrentNumber());
-      console.log("random number " + randomNumber);
       postXkcd(getLinkForNumber(randomNumber));
     } else if (botRegexNumber.test(request.text)) {
       // postMessage(getLinkForNumber(number));
@@ -104,7 +103,7 @@ function getCurrentNumber() {
 }
 
 function getRandomArbitrary(min, max) {
-  return Math.random() * (max + 1 - min) + min;
+  return Math.floor(Math.random() * (max + 1 - min) + min);
 }
 
 function getLinkForNumber(number) {
