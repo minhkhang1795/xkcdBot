@@ -74,7 +74,8 @@ function post(botResponse, alt) {
 function updateJson(body) {
   if (file.num == body.num) {
     console.log(fileName + ' is already up-to-date');
-    return console.log(JSON.stringify(file));
+    console.log(JSON.stringify(file));
+    return;
   }
   file.month = body.month;
   file.num = body.num;
