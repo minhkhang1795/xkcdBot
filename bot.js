@@ -1,5 +1,6 @@
 var HTTPS = require('https');
 var hi = require('cool-ascii-faces');
+var fs = require('fs');
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
 var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd comic." +
@@ -9,8 +10,7 @@ var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd 
   "\n3) @xkcd [NUMBER] - show comic [NUMBER].";
 var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a list of commands";
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
-var fs = require('fs');
-var fileName = './values.json';
+var fileName = '/usr/values.json';
 var file = require(fileName);
 
 function respond() {
@@ -19,7 +19,7 @@ function respond() {
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
     botRegexCurrent = new RegExp('^\@' + botName + ' newest$'),
     botRegexRandom = new RegExp('^\@' + botName + ' random$');
-  botRegexNumber = new RegExp('^\@' + botName + ' number$');
+    botRegexNumber = new RegExp('^\@' + botName + ' number$');
 
   this.res.writeHead(200);
   if (request.text) {
@@ -92,7 +92,7 @@ function postXkcd(link) {
 
     if (!error && response.statusCode === 200) {
       result = body.img;
-      alt = body.alt;
+      alt = "#" + body.number + " " + body.alt;
     }
     post(result, alt);
   })
