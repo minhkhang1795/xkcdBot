@@ -21,6 +21,7 @@ function respond() {
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
     botRegexCurrent = new RegExp('^\@' + botName + ' newest$'),
     botRegexRandom = new RegExp('^\@' + botName + ' random$'),
+    botRegexData = new RegExp('^\@' + botName + ' data$'),
     botRegexNumber = new RegExp('^\@' + botName + ' \\d+$'),
     botRegexNotFound = new RegExp('^\@' + botName + '*'),
     regexNumbers = new RegExp('\\d+');
@@ -47,6 +48,8 @@ function respond() {
         postXkcd(getLinkForNumber(number));
       else
         post(comicNotFound);
+    } else if (botRegexData.test(request.text)) {
+      postMessage(JSON.stringify(file));
     } else if (botRegexNotFound.test(request.text)) {
       // Check spam
       if (!isSpam())
