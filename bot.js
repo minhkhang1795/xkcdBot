@@ -10,7 +10,7 @@ var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd 
   "\n3) @xkcd [NUMBER] - show comic [NUMBER].";
 var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a list of commands";
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
-var fileName = '/usr/values.json';
+var fileName = './values.json';
 var file = require(fileName);
 
 function respond() {
@@ -31,6 +31,7 @@ function respond() {
       postXkcd(currentComicJsonUrl);
     } else if (botRegexRandom.test(request.text)) {
       var randomNumber = getRandomArbitrary(1, getCurrentNumber());
+      console.log("random number " + randomNumber);
       postXkcd(getLinkForNumber(randomNumber));
     } else if (botRegexNumber.test(request.text)) {
       // postMessage(getLinkForNumber(number));
