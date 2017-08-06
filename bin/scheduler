@@ -71,19 +71,12 @@ function post(botResponse, alt) {
 }
 
 function updateJson(body, result, alt) {
-  if (file.num == body.num) {
+  if (file.current.num == body.num) {
     console.log(fileName + ' is already up-to-date');
     console.log(JSON.stringify(file));
     return;
   }
-  file.current.month = body.month;
-  file.current.num = body.num;
-  file.current.link = body.link;
-  file.current.year = body.year;
-  file.current.alt = body.alt;
-  file.current.img = body.img;
-  file.current.title = body.title;
-  file.current.day = body.day;
+  file.current = body
   fs.writeFile(fileName, JSON.stringify(file), function (err) {
     post(result, alt);
     if (err)
