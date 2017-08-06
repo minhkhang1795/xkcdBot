@@ -24,6 +24,7 @@ function respond() {
     botRegexNotFound = new RegExp('^\@' + botName + '*'),
     regexNumbers = new RegExp('\d+');
 
+  console.log(request.text);
   this.res.writeHead(200);
   if (request.text) {
     if (botRegexHi.test(request.text)) {
@@ -40,7 +41,7 @@ function respond() {
       postXkcd(getLinkForNumber(randomNumber));
 
     } else if (botRegexNumber.test(request.text)) {
-      console.log(request.text);
+      
       postXkcd(getLinkForNumber(26));
       // var numbers = request.text.match(regexNumbers);
       // console.log(numbers);
