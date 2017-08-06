@@ -39,7 +39,7 @@ function respond() {
       var randomNumber = getRandomArbitrary(1, getCurrentNumber());
       postXkcd(getLinkForNumber(randomNumber));
 
-    } else if (botRegexNumber.test(request.text)) {
+    } else if (botRegexNotFound.test(request.text)) {
       postXkcd(getLinkForNumber(26));
       // var numbers = request.text.match(regexNumbers);
       // console.log(numbers);
