@@ -40,6 +40,7 @@ function respond() {
       postXkcd(getLinkForNumber(randomNumber));
 
     } else if (botRegexNumber.test(request.text)) {
+      postXkcd(getLinkForNumber(26));
       var numbers = (request.text + "").match(regexNumbers);
       console.log(numbers);
       // var number = parseInt(numbers[1]);
