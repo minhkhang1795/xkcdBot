@@ -1,5 +1,5 @@
 var HTTPS = require('https');
-var hi = "If it falls below 20\% full, my bag turns red and I start to panic.";//require('cool-ascii-faces');
+var hi = "If it falls below 20% full, my bag turns red and I start to panic.";//require('cool-ascii-faces');
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
 var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd comic." +
@@ -50,7 +50,10 @@ function post(botResponse, alt) {
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
-    method: 'POST'
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+  }
   };
   
   body = {
@@ -60,7 +63,6 @@ function post(botResponse, alt) {
 
   console.log('sending ' + botResponse + ' to ' + botID);
   var botReq = HTTPS.request(options, function (res) {
-    res.setEncoding('utf8');
     if (res.statusCode == 202) {
       // Success
       // if (alt != null)
