@@ -3,7 +3,7 @@
 var botID = process.env.BOT_ID;
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
 var fs = require('fs');
-var fileName = '/values.json';
+var fileName = './values.json';
 var file = require(fileName);
 
 function postXkcd() {

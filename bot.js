@@ -13,7 +13,7 @@ var currentComicJsonUrl = "https://xkcd.com/info.0.json";
 var comicNotFound = "Can't find that comic!!!";
 var stop = "Stop feeding xkcd!";
 var start = "Start feeding xkcd";
-var fileName = '../bin/values.json';
+var fileName = './bin/values.json';
 var file = require(fileName);
 var fiveMin = 5 * 60 * 1000;
 var tempCurrent = null;
@@ -176,7 +176,7 @@ function isSpam() {
 }
 
 function updateJson() {
-  fs.writeFile(fileName, JSON.stringify(file), function (err) {
+  fs.writeFile('value.json', JSON.stringify(file), function (err) {
     if (err)
       return console.log(err);
     console.log(JSON.stringify(file));
