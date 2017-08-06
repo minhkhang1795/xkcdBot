@@ -77,6 +77,7 @@ function post(botResponse, alt) {
     console.log('timeout posting message ' + JSON.stringify(err));
   });
   botReq.end(JSON.stringify(body));
+  console.log(JSON.stringify(body));
 }
 
 function postXkcd(link) {
