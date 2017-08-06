@@ -29,8 +29,8 @@ function respond() {
     botRegexData = new RegExp('^\@' + botName + ' data$'),
     botRegexNumber = new RegExp('^\@' + botName + ' \\d+$'),
     botRegexNotFound = new RegExp('^\@' + botName + '*'),
-    botRegexStop = new RegExp('^\@' + botName + ' stop*'),
-    botRegexStart = new RegExp('^\@' + botName + ' start*'),
+    botRegexStop = new RegExp('^\@' + botName + ' stop123$'),
+    botRegexStart = new RegExp('^\@' + botName + ' start123$'),
     regexNumbers = new RegExp('\\d+');
 
   this.res.writeHead(200);
@@ -45,7 +45,7 @@ function respond() {
       postXkcd(currentComicJsonUrl);
 
     } else if (botRegexRandom.test(request.text)) {
-      var randomNumber = getRandomArbitrary(1, getCurrentNumber());
+      var randomNumber = getRandomArbitrary(1, getCurrentNumber(currentComicJsonUrl));
       postXkcd(getLinkForNumber(randomNumber));
 
     } else if (botRegexNumber.test(request.text)) {
@@ -54,7 +54,15 @@ function respond() {
       postXkcd(getLinkForNumber(number));
 
     } else if (botRegexStop.test(request.text)) {
-      post(JSON.stringify(file));
+      file.stop = true;
+      updateJson();
+      post(stop);
+
+    } else if (botRegexStart.test(request.text)) {
+      file.stop = false;
+      updateJson();
+      post(start);
+
     } else if (botRegexData.test(request.text)) {
       post(JSON.stringify(file));
 
@@ -123,7 +131,7 @@ function postXkcd(link) {
   })
 }
 
-function getCurrentNumber() {
+function getCurrentNumber(link) {
   var request = require("request");
   var result = 10;
   var alt;
