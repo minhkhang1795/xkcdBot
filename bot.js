@@ -1,26 +1,42 @@
 var HTTPS = require('https');
 var hi = require('cool-ascii-faces');
-var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest comic.\n\nType '@xkcd help' for a list of commands:\n1) @xkcd newest - show newest comic.\n\nSorry, but I'm still dumb. I'll only send you an xkcd at a specific time daily.";
-var imgLink = 'https://imgs.xkcd.com/comics/bun_alert.png';
-
-var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
+var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd comic." +
+  "\n\nType '@xkcd help' for a list of commands:" +
+  "\n1) @xkcd newest - show the newest comic." +
+  "\n2) @xkcd random - show a random comic." +
+  "\n3) @xkcd [NUMBER] - show comic #[NUMBER].";
+var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a list of commands";
+var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
+var fs = require('fs');
+var fileName = './values.json';
+var file = require(fileName);
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-    botRegexSample = new RegExp('^\@' + botName + ' hi$'),
+    botRegexHi = new RegExp('^\@' + botName + ' hi$'),
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
-    botRegexCurrent = new RegExp('^\@' + botName + ' newest$');
+    botRegexCurrent = new RegExp('^\@' + botName + ' newest$'),
+    botRegexRandom = new RegExp('^\@' + botName + ' random$');
+    botRegexNumber = new RegExp('^\@' + botName + ' number$');
 
   this.res.writeHead(200);
   if (request.text) {
-    if (botRegexSample.test(request.text)) {
-      postMessageSample();
+    if (botRegexHi.test(request.text)) {
+      post(hi());
     } else if (botRegexHelp.test(request.text)) {
-      postMessageHelp();
+      post(help);
     } else if (botRegexCurrent.test(request.text)) {
-      postMessageCurrent(currentComicJsonUrl);
+      postMessage(currentComicJsonUrl);
+    } else if (botRegexRandom.test(request.text)) {
+      var randomNumber = getRandomArbitrary(1, getCurrentNumber());
+      postMessage(getLinkForNumber(randomNumber));
+    } else if (botRegexNumber.test(request.text)) {
+      // postMessage(getLinkForNumber(number));
+    } else {
+      // Check spam
+      post(commandNotFound);
     }
   } else {
     console.log("don't care");
@@ -28,21 +44,7 @@ function respond() {
   this.res.end();
 }
 
-function postMessageSample() {
-  var botResponse;
-
-  botResponse = hi();
-  post(botResponse);
-}
-
-function postMessageHelp() {
-  var botResponse;
-
-  botResponse = help;
-  post(botResponse);
-}
-
-function post(botResponse) {
+function post(botResponse, alt) {
   var options, body;
 
   options = {
@@ -59,7 +61,9 @@ function post(botResponse) {
   console.log('sending ' + botResponse + ' to ' + botID);
   var botReq = HTTPS.request(options, function (res) {
     if (res.statusCode == 202) {
-      //neat
+      // Success
+      if (alt != null)
+        post(alt);
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
     }
@@ -74,20 +78,34 @@ function post(botResponse) {
   botReq.end(JSON.stringify(body));
 }
 
-function postMessageCurrent(u) {
+function postMessage(link) {
   var request = require("request");
   var result = 'Can\'t find that comic!!!';
+  var alt;
   request({
-    url: u,
+    url: link,
     json: true
   }, function (error, response, body) {
 
     if (!error && response.statusCode === 200) {
       console.log(body.img);
       result = body.img;
+      alt = body.alt;
     }
-    post(result);
+    post(result, alt);
   })
+}
+
+function getCurrentNumber() {
+  return file.current.num;
+}
+
+function getRandomArbitrary(min, max) {
+  return Math.random() * (max + 1 - min) + min;
+}
+
+function getLinkForNumber(number) {
+  return "https://xkcd.com/" + number + "/info.0.json";
 }
 
 exports.respond = respond;
