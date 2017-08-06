@@ -16,7 +16,7 @@ var start = "Start feeding xkcd";
 var fileName = './bin/values.json';
 var file = require(fileName);
 var fiveMin = 5 * 60 * 1000;
-var tempCurrent = null;
+var tempCurrent = -1;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
@@ -52,7 +52,8 @@ function respond() {
       postXkcd(currentComicJsonUrl);
 
     } else if (botRegexRandom.test(request.text)) {
-      if (tempCurrent == null)
+      console.log(tempCurrent);
+      if (tempCurrent < 1)
         postXkcdRandom();
       else {
         var randomNumber = getRandomArbitrary(1, tempCurrent);
