@@ -45,7 +45,7 @@ function respond() {
       aoo++;
       // console.log(num);
       postXkcd(getLinkForNumber(23));
-    } else if (botRegexNumber.test(botRegexNotFound)) {
+    } else if (botRegexNotFound.test(request.text)) {
       // Check spam
       aoo += 10;
       postXkcd(getLinkForNumber(26));
