@@ -25,6 +25,7 @@ function respond() {
     regexNumbers = new RegExp('\d+');
 
   console.log(request.text);
+  console.log(botRegexNumber.test(request.text));
   this.res.writeHead(200);
   if (request.text) {
     if (botRegexHi.test(request.text)) {
@@ -41,7 +42,7 @@ function respond() {
       postXkcd(getLinkForNumber(randomNumber));
 
     } else if (botRegexNumber.test(request.text)) {
-      
+
       postXkcd(getLinkForNumber(26));
       // var numbers = request.text.match(regexNumbers);
       // console.log(numbers);
