@@ -36,7 +36,7 @@ function respond() {
       // postMessage(getLinkForNumber(number));
     } else {
       // Check spam
-      post(commandNotFound);
+      // post(commandNotFound);
     }
   } else {
     console.log("don't care");
