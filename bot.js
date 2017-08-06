@@ -47,13 +47,11 @@ function respond() {
         postXkcd(getLinkForNumber(number));
       else
         post(ComicNotFound);
+    } else if (botRegexNotFound.test(request.text)) {
+      // Check spam
+      if (getTimeStampDif() > 10)
+        post(commandNotFound);
     }
-    // } else if (botRegexNotFound.test(request.text)) {
-    //   // Check spam
-    //   aoo += 10;
-    //   postXkcd(getLinkForNumber(26));
-    //   post(commandNotFound);
-    // }
   } else {
     console.log("don't care");
   }
@@ -124,6 +122,26 @@ function getRandomArbitrary(min, max) {
 
 function getLinkForNumber(number) {
   return "https://xkcd.com/" + number + "/info.0.json";
+}
+
+function getTimeStampDif() {
+  var oldTimeStamp = file.spamCheckInterval.timeStamp;
+  var currentTimeStamp = new Date().getTime();
+  if (oldTimeStamp == null) {
+    file.spamCheckInterval.timeStamp = currentTimeStamp;
+    updateJson();
+    return 0;
+  }
+  return currentTimeStamp - oldTimeStamp;
+}
+
+function updateJson() {
+  fs.writeFile(fileName, JSON.stringify(file), function (err) {
+    if (err)
+      return console.log(err);
+    console.log(JSON.stringify(file));
+    console.log('writing to ' + fileName);
+  });
 }
 
 exports.respond = respond;
