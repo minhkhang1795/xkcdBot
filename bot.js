@@ -42,7 +42,7 @@ function respond() {
     } else if (botRegexNumber.test(request.text)) {
       var numbers = request.text.match(regexNumbers);
       console.log(numbers);
-      var number = parseInt(numbers[1]);
+      var number = parseInt(numbers[0]);
       if (number <= getCurrentNumber() && number > 0)
         postXkcd(getLinkForNumber(number));
       else
