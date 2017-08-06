@@ -41,11 +41,12 @@ function respond() {
 
     } else if (botRegexNumber.test(request.text)) {
       var numbers = (request.text + "").match(regexNumbers);
-      var number = parseInt(numbers[1]);
-      if (number <= getCurrentNumber() && number > 0)
-        postXkcd(getLinkForNumber(number));
-      else
-        post(ComicNotFound);
+      console.log(numbers);
+      // var number = parseInt(numbers[1]);
+      // if (number <= getCurrentNumber() && number > 0)
+      //   postXkcd(getLinkForNumber(number));
+      // else
+      //   post(ComicNotFound);
     }
     // } else if (botRegexNotFound.test(request.text)) {
     //   // Check spam
