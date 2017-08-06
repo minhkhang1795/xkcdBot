@@ -76,14 +76,14 @@ function updateJson(body, result, alt) {
     console.log(JSON.stringify(file));
     return;
   }
-  file.month = body.month;
-  file.num = body.num;
-  file.link = body.link;
-  file.year = body.year;
-  file.alt = body.alt;
-  file.img = body.img;
-  file.title = body.title;
-  file.day = body.day;
+  file.current.month = body.month;
+  file.current.num = body.num;
+  file.current.link = body.link;
+  file.current.year = body.year;
+  file.current.alt = body.alt;
+  file.current.img = body.img;
+  file.current.title = body.title;
+  file.current.day = body.day;
   fs.writeFile(fileName, JSON.stringify(file), function (err) {
     post(result, alt);
     if (err)
