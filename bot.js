@@ -50,7 +50,7 @@ function respond() {
         post(comicNotFound);
     } else if (botRegexNotFound.test(request.text)) {
       // Check spam
-      if (checkSpam())
+      if (!isSpam())
         post(commandNotFound);
     }
   } else {
