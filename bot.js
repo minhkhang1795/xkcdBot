@@ -1,5 +1,5 @@
 var HTTPS = require('https');
-var hi = "If it falls below 20 full, my bag turns red and I start to panic.";//require('cool-ascii-faces');
+var hi = "If it falls below 20% full, my bag turns red and I start to panic.";//require('cool-ascii-faces');
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
 var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd comic." +
@@ -24,7 +24,7 @@ function respond() {
   this.res.writeHead(200);
   if (request.text) {
     if (botRegexHi.test(request.text)) {
-      post(hi);
+      post(hi.toString("utf8"));
     } else if (botRegexHelp.test(request.text)) {
       post(help);
     } else if (botRegexCurrent.test(request.text)) {
