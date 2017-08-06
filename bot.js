@@ -39,10 +39,10 @@ function respond() {
 
     } else if (botRegexNumber.test(request.text)) {
       // postMessage(getLinkForNumber(number));
-      var numbers = (request.text + "").match('\d+');
+      // var numbers = (request.text + "").match('\d+');
       // postXkcd(getLinkForNumber(numbers[0]));
       console.log("true");
-      console.log(num);
+      // console.log(num);
     } else if (botRegexNumber.test(botRegexNotFound)) {
       // Check spam
       post(commandNotFound);
