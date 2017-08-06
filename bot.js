@@ -28,10 +28,10 @@ function respond() {
     } else if (botRegexHelp.test(request.text)) {
       post(help);
     } else if (botRegexCurrent.test(request.text)) {
-      postMessage(currentComicJsonUrl);
+      postXkcd(currentComicJsonUrl);
     } else if (botRegexRandom.test(request.text)) {
       var randomNumber = getRandomArbitrary(1, getCurrentNumber());
-      postMessage(getLinkForNumber(randomNumber));
+      postXkcd(getLinkForNumber(randomNumber));
     } else if (botRegexNumber.test(request.text)) {
       // postMessage(getLinkForNumber(number));
     } else {
@@ -55,7 +55,7 @@ function post(botResponse, alt) {
 
   body = {
     "bot_id": botID,
-    "text": botResponse
+    "text": String.value(botResponse)
   };
 
   console.log('sending ' + botResponse + ' to ' + botID);
@@ -78,7 +78,7 @@ function post(botResponse, alt) {
   botReq.end(JSON.stringify(body));
 }
 
-function postMessage(link) {
+function postXkcd(link) {
   var request = require("request");
   var result = 'Can\'t find that comic!!!';
   var alt;
