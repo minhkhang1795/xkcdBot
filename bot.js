@@ -19,21 +19,27 @@ function respond() {
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
     botRegexCurrent = new RegExp('^\@' + botName + ' newest$'),
     botRegexRandom = new RegExp('^\@' + botName + ' random$');
-    botRegexNumber = new RegExp('^\@' + botName + ' number$');
+    botRegexNumber = new RegExp('^\@' + botName + ' \d+$');
 
   this.res.writeHead(200);
   if (request.text) {
     if (botRegexHi.test(request.text)) {
       post(hi());
+
     } else if (botRegexHelp.test(request.text)) {
       post(help);
+
     } else if (botRegexCurrent.test(request.text)) {
       postXkcd(currentComicJsonUrl);
+
     } else if (botRegexRandom.test(request.text)) {
       var randomNumber = getRandomArbitrary(1, getCurrentNumber());
       postXkcd(getLinkForNumber(randomNumber));
+
     } else if (botRegexNumber.test(request.text)) {
       // postMessage(getLinkForNumber(number));
+      var numbers = (request.text + "").match('\d+');
+      postXkcd(getLinkForNumber(numbers[0]));
     } else {
       // Check spam
       // post(commandNotFound);
@@ -92,7 +98,7 @@ function postXkcd(link) {
 
     if (!error && response.statusCode === 200) {
       result = body.img;
-      alt = "#" + body.number + " " + body.alt;
+      alt = "#" + body.num + " " + body.alt;
     }
     post(result, alt);
   })
