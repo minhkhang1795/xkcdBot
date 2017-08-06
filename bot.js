@@ -55,7 +55,7 @@ function post(botResponse, alt) {
   
   body = {
     "bot_id": botID,
-    "text": botResponse
+    "text": "" + botResponse
   };
 
   console.log('sending ' + botResponse + ' to ' + botID);
