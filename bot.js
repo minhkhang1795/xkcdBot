@@ -88,7 +88,8 @@ function postXkcd(link) {
   }, function (error, response, body) {
 
     if (!error && response.statusCode === 200) {
-      console.log(body.img);
+      console.log(typeof body.alt + "\n");
+      console.log(typeof body.img);
       result = body.img;
       alt = body.alt;
     }
