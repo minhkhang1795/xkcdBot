@@ -26,7 +26,6 @@ function postXkcd(link) {
       alt = "#" + body.num + " " + body.title + ": " + body.alt;
       updateJson(body);
     }
-    post(result, alt);
   })
 }
 
@@ -86,6 +85,7 @@ function updateJson(body) {
   file.title = body.title;
   file.day = body.day;
   fs.writeFile(fileName, JSON.stringify(file), function (err) {
+    post(result, alt);
     if (err)
       return console.log(err);
     console.log(JSON.stringify(file));
