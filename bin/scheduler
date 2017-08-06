@@ -24,7 +24,7 @@ function postXkcd(link) {
     if (!error && response.statusCode === 200) {
       result = body.img;
       alt = "#" + body.num + " " + body.title + ": " + body.alt;
-      updateJson(body);
+      updateJson(body, result, alt);
     }
   })
 }
@@ -70,7 +70,7 @@ function post(botResponse, alt) {
   botReq.end(JSON.stringify(body));
 }
 
-function updateJson(body) {
+function updateJson(body, result, alt) {
   if (file.num == body.num) {
     console.log(fileName + ' is already up-to-date');
     console.log(JSON.stringify(file));
