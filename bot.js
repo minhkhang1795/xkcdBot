@@ -52,10 +52,11 @@ function post(botResponse, alt) {
     path: '/v3/bots/post',
     method: 'POST'
   };
+  
 
   body = {
     "bot_id": botID,
-    "text": String.value(botResponse)
+    "text": botResponse
   };
 
   console.log('sending ' + botResponse + ' to ' + botID);
@@ -75,7 +76,7 @@ function post(botResponse, alt) {
   botReq.on('timeout', function (err) {
     console.log('timeout posting message ' + JSON.stringify(err));
   });
-  botReq.end(JSON.stringify(body));
+  botReq.end(JSON.parse(body));
 }
 
 function postXkcd(link) {
