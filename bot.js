@@ -52,7 +52,6 @@ function respond() {
       postXkcd(currentComicJsonUrl);
 
     } else if (botRegexRandom.test(request.text)) {
-      console.log(tempCurrent);
       if (tempCurrent < 1)
         postXkcdRandom();
       else {
