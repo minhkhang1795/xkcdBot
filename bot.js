@@ -13,9 +13,10 @@ var currentComicJsonUrl = "https://xkcd.com/info.0.json";
 var comicNotFound = "Can't find that comic!!!";
 var stop = "Stop feeding xkcd!";
 var start = "Start feeding xkcd";
-var fileName = './bin/values.json';
+var fileName = '/bin/values.json';
 var file = require(fileName);
 var fiveMin = 5 * 60 * 1000;
+var tempCurrent = null;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
@@ -51,7 +52,12 @@ function respond() {
       postXkcd(currentComicJsonUrl);
 
     } else if (botRegexRandom.test(request.text)) {
-      postXkcdRandom();
+      if (tempCurrent == null)
+        postXkcdRandom();
+      else {
+        var randomNumber = getRandomArbitrary(1, tempCurrent);
+        postXkcd(getLinkForNumber(number));
+      }
 
     } else if (botRegexNumber.test(request.text)) {
       var numbers = request.text.match(regexNumbers);
