@@ -38,8 +38,9 @@ function respond() {
 
     } else if (botRegexNumber.test(request.text)) {
       // postMessage(getLinkForNumber(number));
-      var numbers = (request.text + "").match('\d+');
-      postXkcd(getLinkForNumber(numbers[0]));
+      // var numbers = (request.text + "").match('\d+');
+      // postXkcd(getLinkForNumber(numbers[0]));
+      console.log("true");
     } else {
       // Check spam
       // post(commandNotFound);
