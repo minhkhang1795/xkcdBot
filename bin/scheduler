@@ -72,9 +72,10 @@ function post(botResponse, alt) {
 }
 
 function updateJson(body) {
-  if (file.num == body.num)
+  if (file.num == body.num) {
     console.log(fileName + ' is already up-to-date');
     return console.log(JSON.stringify(file));
+  }
   file.month = body.month;
   file.num = body.num;
   file.link = body.link;
