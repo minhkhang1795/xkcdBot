@@ -19,8 +19,9 @@ function respond() {
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
     botRegexCurrent = new RegExp('^\@' + botName + ' newest$'),
     botRegexRandom = new RegExp('^\@' + botName + ' random$'),
-    botRegexNumber = new RegExp('^\@' + botName + ' \d+$'),
-    botRegexNotFound = new RegExp('^\@' + botName);
+    botRegexNumber = new RegExp('^\@' + botName + ' \d+'),
+    botRegexNotFound = new RegExp('^\@' + botName + '*');
+
   var aoo = 1;
   this.res.writeHead(200);
   if (request.text) {
