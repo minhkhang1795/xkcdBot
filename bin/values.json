@@ -14,5 +14,6 @@
     },
     "spamCheckInterval": {
         "timeStamp": null
-    }
+    },
+    "stop": false
 }

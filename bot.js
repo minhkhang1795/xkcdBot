@@ -11,11 +11,16 @@ var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd 
 var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a list of commands";
 var currentComicJsonUrl = "https://xkcd.com/info.0.json";
 var comicNotFound = "Can't find that comic!!!";
+var stop = "Stop feeding xkcd!";
+var start = "Start feeding xkcd";
 var fileName = './bin/values.json';
 var file = require(fileName);
 var fiveMin = 5 * 60 * 1000;
 
 function respond() {
+  if (file.stop)
+    return;
+
   var request = JSON.parse(this.req.chunks[0]),
     botRegexHi = new RegExp('^\@' + botName + ' hi$'),
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
@@ -24,6 +29,8 @@ function respond() {
     botRegexData = new RegExp('^\@' + botName + ' data$'),
     botRegexNumber = new RegExp('^\@' + botName + ' \\d+$'),
     botRegexNotFound = new RegExp('^\@' + botName + '*'),
+    botRegexStop = new RegExp('^\@' + botName + ' stop*'),
+    botRegexStart = new RegExp('^\@' + botName + ' start*'),
     regexNumbers = new RegExp('\\d+');
 
   this.res.writeHead(200);
@@ -44,12 +51,13 @@ function respond() {
     } else if (botRegexNumber.test(request.text)) {
       var numbers = request.text.match(regexNumbers);
       var number = parseInt(numbers[0]);
-      if (number <= getCurrentNumber() && number > 0)
-        postXkcd(getLinkForNumber(number));
-      else
-        post(comicNotFound);
+      postXkcd(getLinkForNumber(number));
+
+    } else if (botRegexStop.test(request.text)) {
+      post(JSON.stringify(file));
     } else if (botRegexData.test(request.text)) {
       post(JSON.stringify(file));
+
     } else if (botRegexNotFound.test(request.text)) {
       // Check spam
       if (!isSpam())
@@ -100,7 +108,7 @@ function post(botResponse, alt) {
 
 function postXkcd(link) {
   var request = require("request");
-  var result = commandNotFound;
+  var result = comicNotFound;
   var alt;
   request({
     url: link,
@@ -116,7 +124,19 @@ function postXkcd(link) {
 }
 
 function getCurrentNumber() {
-  return file.current.num;
+  var request = require("request");
+  var result = 10;
+  var alt;
+  request({
+    url: link,
+    json: true
+  }, function (error, response, body) {
+
+    if (!error && response.statusCode === 200) {
+      result = body.num;
+    }
+    return result;
+  })
 }
 
 function getRandomArbitrary(min, max) {
