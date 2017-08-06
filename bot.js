@@ -52,7 +52,7 @@ function respond() {
     console.log("don't care");
   }
   this.res.end();
-  console.log(a00);
+  console.log(aoo);
 }
 
 function post(botResponse, alt) {
