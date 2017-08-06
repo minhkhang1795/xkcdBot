@@ -119,6 +119,7 @@ function postXkcd(link) {
   var request = require("request");
   var result = comicNotFound;
   var alt;
+
   request({
     url: link,
     json: true
@@ -135,9 +136,9 @@ function postXkcd(link) {
 function postXkcdRandom() {
   var request = require("request");
   var result = 10;
-  var alt;
+  
   request({
-    url: link,
+    url: currentComicJsonUrl,
     json: true
   }, function (error, response, body) {
 
