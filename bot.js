@@ -14,7 +14,8 @@ var comicNotFound = "Can't find that comic!!!";
 var stop = "Stop feeding xkcd!";
 var start = "Start feeding xkcd";
 var fileName = './bin/values.json';
-var file = require(fileName);
+var data = fs.readFileSync(fileName);
+var file = JSON.parse(data);
 var fiveMin = 5 * 60 * 1000;
 var tempCurrent = -1;
 
