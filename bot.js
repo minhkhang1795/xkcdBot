@@ -178,12 +178,16 @@ function isSpam() {
 }
 
 function updateJson() {
-  fs.writeFile('./bin/values2.json', JSON.stringify(file), function (err) {
+  fs.writeFile('./bin/values2.json', JSON.stringify(file), finished);
+  function finished(err) {
+    console.log('Error: ' + err);
     if (err)
       return console.log(err);
+    else {
     console.log(JSON.stringify(file));
     console.log(fileName + ' updated');
-  });
+    }
+  }
 }
 
 exports.respond = respond;
