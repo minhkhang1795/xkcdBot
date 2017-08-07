@@ -178,7 +178,7 @@ function isSpam() {
 }
 
 function updateJson() {
-  fs.writeFile('./bin/values2.json', JSON.stringify(file), finished);
+  fs.writeFile('./bin/values.json', JSON.stringify(file), finished);
   function finished(err) {
     console.log('Error: ' + err);
     if (err)
