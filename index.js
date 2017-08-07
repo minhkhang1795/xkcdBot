@@ -36,7 +36,7 @@ server.listen(port);
 
 var FeedParser = require('feedparser');
 var request = require('request'); // for fetching the feed
-var req = request('https://lorem-rss.herokuapp.com//feed?unit=second&interval=30')
+var req = request('https://lorem-rss.herokuapp.com/feed?unit=second&interval=30')
 var feedparser = new FeedParser();
 
 req.on('error', function (error) {
