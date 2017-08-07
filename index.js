@@ -36,7 +36,7 @@ server.listen(port);
 
 var FeedParser = require('feedparser');
 var request = require('request'); // for fetching the feed
-var req = request('https://xkcd.com/rss.xml')
+var req = request('http://rss.cnn.com/rss/cnn_topstories.rss')
 var feedparser = new FeedParser();
 
 req.on('error', function (error) {
