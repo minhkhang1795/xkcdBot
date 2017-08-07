@@ -141,7 +141,7 @@ function postXkcd(link) {
 
 function postXkcdRandom() {
   var request = require("request");
-  var result = 2000;
+  var result = 1800;
 
   request({
     url: currentComicJsonUrl,
@@ -172,13 +172,12 @@ function isSpam() {
     file.spamCheckInterval.timeStamp = currentTimeStamp;
     updateJson();
     return false;
-  } else {
-    return true;
   }
+  return true;
 }
 
 function updateJson() {
-  fs.writeFile('./bin/values.json', JSON.stringify(file), finished);
+  fs.writeFile(fileName, JSON.stringify(file), finished);
   function finished(err) {
     console.log('Error: ' + err);
     if (err)
