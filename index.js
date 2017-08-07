@@ -36,7 +36,7 @@ server.listen(port);
 
 var FeedParser = require('feedparser');
 var request = require('request'); // for fetching the feed
-var req = request('http://rss.cnn.com/rss/cnn_topstories.rss')
+var req = request('lorem-rss.herokuapp.com/feed?unit=minute')
 var feedparser = new FeedParser();
 
 req.on('error', function (error) {
