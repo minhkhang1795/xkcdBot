@@ -205,7 +205,7 @@ function updateLocalJson() {
 function checkStop(finished) {
   client.get('stop', function (err, reply) {
     console.log(reply);
-    finished(reply);
+    finished(reply === 'true');
   });
 }
 
