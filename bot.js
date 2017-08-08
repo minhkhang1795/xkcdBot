@@ -54,7 +54,6 @@ function respond() {
     if (request.text) {
       if (botRegexHi.test(request.text)) {
         post(hi());
-        resetRedis();
 
       } else if (botRegexHelp.test(request.text)) {
         post(help);
