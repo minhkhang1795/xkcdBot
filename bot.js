@@ -199,13 +199,15 @@ function updateLocalJson() {
 }
 
 function isStop() {
+  var result = false;
   client.get('stop', function (err, reply) {
     console.log(reply);
     if (reply === null) {
       saveStopToRedis(false);
     }
-    return reply;
+    result = reply;
   });
+  return result;
 }
 
 function saveBodyToRedis(body) {
