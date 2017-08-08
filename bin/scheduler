@@ -15,7 +15,8 @@ function postXkcd() {
     }
 
     var today = new Date();
-    if (today.getDay() != 1 && today.getDay() != 3 && today.getDate() != 5) {
+    if (today.getDay() != 2 && today.getDay() != 3 && today.getDate() != 5) {
+      console.log('Not Mon, Wed or Fri');
       process.exit();
       return;
     }
