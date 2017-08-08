@@ -103,9 +103,9 @@ Fill out the form to add an environment variable to your app:
 
 ## Now go test your bot!
 
-Go to GroupMe and type *"@xkcd hi"* in the group where your bot lives to see it in action.
+Go to GroupMe and type **"@xkcd hi"** in the group where your bot lives to see it in action.
 
-![Test your Bot](http://i.groupme.com/821x587.png.7bcf55bed1c64acab83fa2c2ad0b0862)
+![Test your Bot](http://i.imgur.com/lxRi79U.png)
 
 # Make it your own<a name="pull"></a>
 
@@ -125,7 +125,7 @@ And then change directory into the new folder
     $ git commit -m "Your Commit Message"
     $ git push heroku master
 
-Then go and check your bot
+Then go and check your bot.
 
 # All done! Go play around and make the bot your own.
 
@@ -136,15 +136,15 @@ Then go and check your bot
   * @xkcd newest/lastest/current - show the newest comic 
   * @xkcd random - show a random comic
   * @xkcd [NUMBER] - show comic [NUMBER]
-  * Beside the commands above, you can set up your bot to feed the newest comic to your group in Heroku Scheduler.
+  * Beside the commands above, you can set up your bot to feed the newest comic to your group in Heroku Scheduler. The code associated with Heroku Scheduler is in `./bin/scheduler`.
 
 You can freely edit your bot in `bot.js` file.
 
-## Note 
-  * This README format follows the original [GroupMe Bot Tutorial](https://github.com/groupme/bot-tutorial-nodejs)
+# Note 
+  * This github was cloned from the original [GroupMe Bot Tutorial](https://github.com/groupme/bot-tutorial-nodejs)
   * The project uses [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) and [Heroku Redis](https://elements.heroku.com/addons/heroku-redis), which requires Credit Card Validation. Charges may apply if your usages exceed free/hobby limits.
 
-## License
+# MIT License
 
 Copyright 2017 MINH-KHANG VU
 
