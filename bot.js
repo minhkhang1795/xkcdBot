@@ -56,7 +56,7 @@ function respond() {
       post(help);
 
     } else if (botRegexCurrent.test(request.text) || botRegexLatest.test(request.text) || botRegexNewest.test(request.text)) {
-      postXkcd(currentComicJsonUrl);
+      postXkcd(currentComicJsonUrl, true);
 
     } else if (botRegexRandom.test(request.text)) {
       if (tempCurrent < 1)
@@ -198,15 +198,14 @@ function updateLocalJson() {
 }
 
 function isStop() {
-  var result = false;
   client.get('stop', function (err, reply) {
     console.log(reply);
     if (reply === null) {
       saveStopToRedis(false);
+      reply = false;
     }
-    result = reply;
+    return reply;
   });
-  return result;
 }
 
 function saveBodyToRedis(body) {
@@ -217,6 +216,7 @@ function saveBodyToRedis(body) {
   client.set('img', body.img);
   client.set('title', body.title);
   client.set('day', body.day);
+  console.log(client.get('num'));
 }
 
 function saveStopToRedis(bool) {
