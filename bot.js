@@ -73,7 +73,7 @@ function respond() {
       } else if (botRegexNumber.test(request.text)) {
         var numbers = request.text.match(regexNumbers);
         var number = parseInt(numbers[0]);
-        postXkcd(getLinkForNumber(number));
+        postXkcd(getLinkForNumber(number), false, number);
 
       } else if (botRegexStop.test(request.text)) {
         saveStopToRedis(true);
