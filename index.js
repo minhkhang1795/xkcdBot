@@ -32,7 +32,7 @@ client.on('connect', function() {
     console.log('Redis connected');
 });
 
-module.exports = index;
+module.exports = client;
 
 function ping() {
   this.res.writeHead(200);

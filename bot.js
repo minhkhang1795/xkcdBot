@@ -1,7 +1,7 @@
 var HTTPS = require('https');
 var hi = require('cool-ascii-faces');
 var fs = require('fs');
-var client = require("./index");
+var client = require("./index.js");
 
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
