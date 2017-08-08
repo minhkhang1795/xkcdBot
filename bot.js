@@ -5,6 +5,7 @@ var client = require('redis').createClient(process.env.REDIS_URL);
 
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
+
 var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd comic." +
   "\n\nType '@xkcd help' for a list of commands:" +
   "\n1) @xkcd newest/latest/current - show the newest comic." +
@@ -15,11 +16,13 @@ var currentComicJsonUrl = "https://xkcd.com/info.0.json";
 var comicNotFound = "Can't find that comic!!!";
 var stop = "Stop feeding xkcd!";
 var start = "Start feeding xkcd";
+var fiveMin = 5 * 60 * 1000; // in milliseconds
+var tempCurrent = -1;
+
+// Unused vars
 var fileName = './bin/values.json';
 var data = fs.readFileSync(fileName);
 var file = JSON.parse(data);
-var fiveMin = 5 * 60 * 1000;
-var tempCurrent = -1;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
@@ -36,12 +39,9 @@ function respond() {
     botRegexStart = new RegExp('^\@' + botName + ' start123$'),
     regexNumbers = new RegExp('\\d+');
 
-  saveStopToRedis(true);
   if (isStop()) {
     if (botRegexStart.test(request.text)) {
       saveStopToRedis(false);
-      // file.stop = false;
-      // updateJson();
       post(start);
     }
     return;
@@ -73,8 +73,6 @@ function respond() {
 
     } else if (botRegexStop.test(request.text)) {
       saveStopToRedis(true);
-      // file.stop = true;
-      // updateJson();
       post(stop);
 
     } else if (botRegexData.test(request.text)) {
