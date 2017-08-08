@@ -1,8 +1,8 @@
-# Sample GroupMe NodeJS Callback Bot
+# xkcd Bot for GroupMe written in NodeJS
 
 ## Introduction
 
-This project shows the capability of a bot to react to messages sent within a group.
+This project creates a bot that feeds xkcd comics to one specific GroupMe.
 
 ## Contents
 
@@ -12,7 +12,7 @@ This project shows the capability of a bot to react to messages sent within a gr
     * Configure to your bot's credentials
   * [Make changes to the bot](#pull)
     * Pull the code down to your local machine
-    * Configure the local environment variables to your bot's credentials
+    * Bot Commands & Features
 
 ## Requirements:
 
@@ -103,7 +103,7 @@ Fill out the form to add an environment variable to your app:
 
 ## Now go test your bot!
 
-Go to GroupMe and type "/cool guy" in the group where your bot lives to see it in action.
+Go to GroupMe and type "@xkcd hi" in the group where your bot lives to see it in action.
 
 ![Test your Bot](http://i.groupme.com/821x587.png.7bcf55bed1c64acab83fa2c2ad0b0862)
 
@@ -119,31 +119,30 @@ And then change directory into the new folder
 
     $ cd YOUR_APP_NAME_HERE
 
-## Configure your local BOT_ID environment variable
+# All done! Go play around and make the bot your own.
 
-Open the file `.env` from your local files in your text editor of choice.
-Find where it says "YOUR_BOT_ID_HERE" and replace it with the ID of your new bot.
+## Bot Commands & Features
 
-If you don't know what your Bot ID is, please refer back to [this](#get-bot-id) section,
-where it is explained how to retrieve it.
+  * @xkcd hi - show test message/greeting
+  * @xkcd help - show a list of commands
+  * @xkcd newest/lastest/current - show the newest comic 
+  * @xkcd random - show a random comic
+  * @xkcd [NUMBER] - show comic [NUMBER]
+  * Beside the commands above, you can set up your bot to feed the newest comic to your group in Heroku Scheduler.
 
-If your Bot ID is 12345678910, then:
+You can freely edit your bot in `bot.js` file.
 
-    BOT_ID="YOUR_BOT_ID_HERE"
+## Note 
+  * This README format follows the original [GroupMe Bot Tutorial](https://github.com/groupme/bot-tutorial-nodejs)
+  * The project uses [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) and [Heroku Redis](https://elements.heroku.com/addons/heroku-redis), which requires Credit Card Validation. Charges may apply if your usage exceeds free/hobby limits.
 
-becomes:
+## License
 
-    BOT_ID="12345678910"
+Copyright 2017 MINH-KHANG VU
 
-## Start the server
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-To test your bot locally, open terminal and run the following command to start a local server.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-    $ foreman start
-
-Then navigate to `http://127.0.0.1:5000/` in a browser.
-
-![Local bot](http://i.groupme.com/502x133.png.f06c630467954f5dab4c742dc67b71bf)
-
-## All done! Go play around and make the bot your own.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 

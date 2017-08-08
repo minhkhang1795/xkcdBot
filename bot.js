@@ -1,6 +1,7 @@
 var HTTPS = require('https');
 var hi = require('cool-ascii-faces');
 var fs = require('fs');
+var client = require('redis').createClient(process.env.REDIS_URL);
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
 var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd comic." +

@@ -1,7 +1,7 @@
 {
-  "name": "xkcd",
-  "description": "xkcd bot written in Node",
-  "repository": "https://github.com/petemcgrath/cool-guy-bot",
-  "logo": "https://i.groupme.com/256x256.png.ceb8e273046c4c52be81b679ffb44f74",
-  "keywords": []
+  "name": "xkcd for GroupMe Nodejs",
+  "description": "xkcd Bot for GroupMe written in NodeJS",
+  "repository": "https://github.com/vuminhkhang1995/xkcdBot",
+  "logo": "https://pbs.twimg.com/profile_images/413359024617185280/pS8lVAWA.png",
+  "keywords": ["node", "heroku", "xkcd", "bot"]
 }
