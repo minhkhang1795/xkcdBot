@@ -32,6 +32,8 @@ client.on('connect', function() {
     console.log('Redis connected');
 });
 
+module.exports = client;
+
 function ping() {
   this.res.writeHead(200);
   this.res.end("xkcd bot by Minh-Khang Vu");
