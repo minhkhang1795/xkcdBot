@@ -36,6 +36,7 @@ function respond() {
     botRegexStart = new RegExp('^\@' + botName + ' start123$'),
     regexNumbers = new RegExp('\\d+');
 
+  saveStopToRedis(true);
   if (isStop()) {
     if (botRegexStart.test(request.text)) {
       saveStopToRedis(false);
