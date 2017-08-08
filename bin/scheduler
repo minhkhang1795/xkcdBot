@@ -15,7 +15,7 @@ function postXkcd() {
     }
 
     var today = new Date();
-    if (today.getDay() != 2 && today.getDay() != 3 && today.getDate() != 5) {
+    if (today.getDay() != 1 && today.getDay() != 3 && today.getDate() != 5) {
       console.log('Not Mon, Wed or Fri');
       process.exit();
       return;
@@ -39,7 +39,8 @@ function postXkcd() {
           if (parseInt(reply, 10) !== body.num) {
             console.log('trueeee!');
             saveBodyToRedis(body, function finished(err, reply) {
-              console.log('Error: ' + err);
+              if (err)
+                console.log('Error: ' + err);
               console.log('Reply: ' + reply);
               post(result, alt);
             });
@@ -60,7 +61,7 @@ function saveBodyToRedis(body, finished) {
   client.set('img', body.img);
   client.set('title', body.title);
   client.set('day', body.day);
-  client.set('num', body.num, function(err, reply) {
+  client.set('num', body.num, function (err, reply) {
     finished(err, reply);
   });
 }
