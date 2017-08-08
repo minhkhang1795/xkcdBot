@@ -6,7 +6,7 @@ var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
 var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd comic." +
   "\n\nType '@xkcd help' for a list of commands:" +
-  "\n1) @xkcd newest - show the newest comic." +
+  "\n1) @xkcd newest/latest/current - show the newest comic." +
   "\n2) @xkcd random - show a random comic." +
   "\n3) @xkcd [NUMBER] - show comic [NUMBER].";
 var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a list of commands";
@@ -24,7 +24,9 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]),
     botRegexHi = new RegExp('^\@' + botName + ' hi$'),
     botRegexHelp = new RegExp('^\@' + botName + ' help$'),
-    botRegexCurrent = new RegExp('^\@' + botName + ' newest$'),
+    botRegexCurrent = new RegExp('^\@' + botName + ' current$'),
+    botRegexLatest = new RegExp('^\@' + botName + ' latest$'),
+    botRegexNewest = new RegExp('^\@' + botName + ' newest$'),
     botRegexRandom = new RegExp('^\@' + botName + ' random$'),
     botRegexData = new RegExp('^\@' + botName + ' data$'),
     botRegexNumber = new RegExp('^\@' + botName + ' \\d+$'),
@@ -50,7 +52,7 @@ function respond() {
     } else if (botRegexHelp.test(request.text)) {
       post(help);
 
-    } else if (botRegexCurrent.test(request.text)) {
+    } else if (botRegexCurrent.test(request.text) || botRegexLatest.test(request.text) || botRegexNewest.test(request.text)) {
       postXkcd(currentComicJsonUrl);
 
     } else if (botRegexRandom.test(request.text)) {

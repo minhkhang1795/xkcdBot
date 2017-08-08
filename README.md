@@ -133,7 +133,7 @@ Then go and check your bot.
 
   * @xkcd hi - show test message/greeting
   * @xkcd help - show a list of commands
-  * @xkcd newest/lastest/current - show the newest comic 
+  * @xkcd newest/latest/current - show the newest comic 
   * @xkcd random - show a random comic
   * @xkcd [NUMBER] - show comic [NUMBER]
   * Beside the commands above, you can set up your bot to feed the newest comic to your group in Heroku Scheduler. The code associated with Heroku Scheduler is in `./bin/scheduler`.
