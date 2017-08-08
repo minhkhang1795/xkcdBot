@@ -38,7 +38,7 @@ var file = JSON.parse(data);
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]);
-
+  this.res.writeHead(200);
   checkStop(function finished(isStop) {
     if (isStop != null && isStop) {
       // Already stop, check if message is to restart
@@ -52,7 +52,6 @@ function respond() {
       return;
     }
 
-    this.res.writeHead(200);
     if (request.text) {
       if (botRegexHi.test(request.text)) {
         post(hi());
@@ -88,8 +87,8 @@ function respond() {
     } else {
       console.log("don't care");
     }
-    this.res.end();
   });
+  this.res.end();
 }
 
 function post(botResponse, alt) {
@@ -236,7 +235,7 @@ function comicNotFound(num) {
     return "Can't find comic!!!";
   else
     return "Can't find comic #" + num + "!!!";
-} 
+}
 
 exports.respond = respond;
 client.on('connect', function () {
