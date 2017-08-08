@@ -198,6 +198,16 @@ function updateLocalJson() {
   }
 }
 
+function isStop() {
+  client.get('stop', function (err, reply) {
+    console.log(reply);
+    if (reply === null) {
+      saveStopToRedis(false);
+    }
+    return reply;
+  });
+}
+
 function saveBodyToRedis(body) {
   client.set('month', body.month);
   client.set('num', body.num);
@@ -210,16 +220,6 @@ function saveBodyToRedis(body) {
 
 function saveStopToRedis(bool) {
   client.set('stop', bool);
-}
-
-function isStop() {
-  var stopBool = client.get('stop');
-  if (stopBool == null) {
-    saveStopToRedis(false);
-    stopBool = false;
-  }
-  console.log(stopBool);
-  return stopBool;
 }
 
 exports.respond = respond;
