@@ -140,8 +140,10 @@ function postXkcd(link, save) {
       result = body.img;
       alt = "#" + body.num + " " + body.title + ": " + body.alt;
 
-      if (save && body.num != null)
+      if (save) {
+        console.log('here');
         saveBodyToRedis(body);
+      }
     }
     post(result, alt);
   })
