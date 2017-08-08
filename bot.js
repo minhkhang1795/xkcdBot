@@ -204,6 +204,7 @@ function updateLocalJson() {
 
 function checkStop(finished) {
   client.get('stop', function (err, reply) {
+    console.log(reply);
     finished(reply);
   });
 }
@@ -236,6 +237,7 @@ function comicNotFound(num) {
   else
     return "Can't find comic #" + num + "!!!";
 } 
+
 exports.respond = respond;
 client.on('connect', function () {
   console.log('Redis connected');
