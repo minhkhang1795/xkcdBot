@@ -103,7 +103,7 @@ Fill out the form to add an environment variable to your app:
 
 ## Now go test your bot!
 
-Go to GroupMe and type "@xkcd hi" in the group where your bot lives to see it in action.
+Go to GroupMe and type *"@xkcd hi"* in the group where your bot lives to see it in action.
 
 ![Test your Bot](http://i.groupme.com/821x587.png.7bcf55bed1c64acab83fa2c2ad0b0862)
 
@@ -118,6 +118,14 @@ Within terminal, change directory to the location where you would like the files
 And then change directory into the new folder
 
     $ cd YOUR_APP_NAME_HERE
+
+## After making changes, commit the code to heroku
+
+    $ git add .
+    $ git commit -m "Your Commit Message"
+    $ git push heroku master
+
+Then go and check your bot
 
 # All done! Go play around and make the bot your own.
 
@@ -134,7 +142,7 @@ You can freely edit your bot in `bot.js` file.
 
 ## Note 
   * This README format follows the original [GroupMe Bot Tutorial](https://github.com/groupme/bot-tutorial-nodejs)
-  * The project uses [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) and [Heroku Redis](https://elements.heroku.com/addons/heroku-redis), which requires Credit Card Validation. Charges may apply if your usage exceeds free/hobby limits.
+  * The project uses [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) and [Heroku Redis](https://elements.heroku.com/addons/heroku-redis), which requires Credit Card Validation. Charges may apply if your usages exceed free/hobby limits.
 
 ## License
 
