@@ -226,7 +226,8 @@ function saveStopToRedis(bool) {
 
 exports.respond = respond;
 exports.index = function (req, res) {
-  // client.get("test", function (err, reply) {
-  //   console.log(reply.toString());
-  // });
+  client.get("test", function (err, reply) {
+    console.log(err);
+    console.log(reply.toString());
+  });
 };
