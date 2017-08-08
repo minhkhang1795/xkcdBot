@@ -54,13 +54,13 @@ function postXkcd() {
 
 function saveBodyToRedis(body, finished) {
   console.log('saveBodyToRedis()');
-  client.set(['month', body.month], 
-  ['num', body.num], 
-  ['year', body.year], 
-  ['alt', body.alt], 
-  ['img', body.img], 
-  ['title', body.title], 
-  ['day', body.day], function(err, reply) {
+  client.set('month', body.month);
+  client.set('year', body.year);
+  client.set('alt', body.alt);
+  client.set('img', body.img);
+  client.set('title', body.title);
+  client.set('day', body.day);
+  client.set('num', body.num, function(err, reply) {
     finished(err, reply);
   });
 }
