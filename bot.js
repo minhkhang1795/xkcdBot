@@ -1,7 +1,7 @@
 var HTTPS = require('https');
 var hi = require('cool-ascii-faces');
 var fs = require('fs');
-var client = require("./index.js");
+var client = require('redis').createClient(process.env.REDIS_URL);
 
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
@@ -226,9 +226,6 @@ function saveStopToRedis(bool) {
 }
 
 exports.respond = respond;
-exports.index = function (req, res) {
-  client.get("test", function (err, reply) {
-    console.log(err);
-    console.log(reply.toString());
-  });
-};
+client.on('connect', function() {
+    console.log('Redis connected');
+});

@@ -1,10 +1,9 @@
-var http, director, cool, bot, router, server, port, client;
+var http, director, cool, bot, router, server, port;
 
 http = require('http');
 director = require('director');
 cool = require('cool-ascii-faces');
 bot = require('./bot.js');
-client = require('redis').createClient(process.env.REDIS_URL);
 
 router = new director.http.Router({
   '/': {
@@ -27,12 +26,6 @@ server = http.createServer(function (req, res) {
 
 port = Number(process.env.PORT || 5000);
 server.listen(port);
-
-client.on('connect', function() {
-    console.log('Redis connected');
-});
-
-module.exports = client;
 
 function ping() {
   this.res.writeHead(200);
