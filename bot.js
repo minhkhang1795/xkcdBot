@@ -209,13 +209,17 @@ function isStop() {
 }
 
 function saveBodyToRedis(body) {
+  console.log('saveBodyToRedis()');
   client.set('month', body.month);
   client.set('num', body.num);
   client.set('year', body.year);
   client.set('alt', body.alt);
   client.set('img', body.img);
   client.set('title', body.title);
-  client.set('day', body.day);
+  client.set('day', body.day, function (err, reply) {
+    console.log('err ' + err);
+    console.log('reply: ' + reply);
+  });
   console.log(client.get('num'));
 }
 
@@ -224,6 +228,6 @@ function saveStopToRedis(bool) {
 }
 
 exports.respond = respond;
-client.on('connect', function() {
-    console.log('Redis connected');
+client.on('connect', function () {
+  console.log('Redis connected');
 });
