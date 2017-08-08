@@ -43,7 +43,8 @@ function postXkcd() {
               console.log('Reply: ' + reply);
               post(result, alt);
             });
-          }
+          } else
+            process.exit();
         });
       } else
         process.exit();
