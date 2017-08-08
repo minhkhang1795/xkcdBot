@@ -54,6 +54,7 @@ function respond() {
     if (request.text) {
       if (botRegexHi.test(request.text)) {
         post(hi());
+        resetRedis();
 
       } else if (botRegexHelp.test(request.text)) {
         post(help);
@@ -215,13 +216,18 @@ function saveBodyToRedis(body) {
   client.set('alt', body.alt);
   client.set('img', body.img);
   client.set('title', body.title);
-  client.set('day', body.day, function (err, reply) {
-    console.log('err ' + err);
-    console.log('reply: ' + reply);
-  });
-  client.get('num', function (err, reply) {
-    console.log('num reply: ' + reply);
-  });
+  client.set('day', body.day);
+}
+
+// Function just for testing
+function resetRedis() {
+  client.set('month', 'a');
+  client.set('num', 'a');
+  client.set('year', 'a');
+  client.set('alt', 'a');
+  client.set('img', 'a');
+  client.set('title', 'a');
+  client.set('day', 'a');
 }
 
 function saveStopToRedis(bool) {
@@ -230,9 +236,9 @@ function saveStopToRedis(bool) {
 
 function comicNotFound(num) {
   if (num === null)
-    return "Can't find comic!!!";
+    return "Can't find comic !!!";
   else
-    return "Can't find comic #" + num + "!!!";
+    return "Can't find comic #" + num + " !!!";
 }
 
 exports.respond = respond;

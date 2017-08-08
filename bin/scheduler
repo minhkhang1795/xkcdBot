@@ -5,30 +5,75 @@ var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
 var fs = require('fs');
 var fileName = './values.json';
 var file = require(fileName);
+var client = require('redis').createClient(process.env.REDIS_URL);
 
 function postXkcd() {
-  var today = new Date();
-  console.log('file.stop = ' + file.stop);
-  if (today.getDay() != 1 && today.getDay() != 3 && today.getDate() != 5 || file.stop) {
-    process.exit();
-    return;
-  }
-
-  var request = require("request");
-  var result = 'Can\'t find today\'s comic!!!';
-  var alt;
-
-  request({
-    url: currentComicJsonUrl,
-    json: true
-  }, function (error, response, body) {
-
-    if (!error && response.statusCode === 200) {
-      result = body.img;
-      alt = "#" + body.num + " " + body.title + ": " + body.alt;
+  checkStop(function finished(isStop) {
+    if (isStop != null && isStop) {
+      process.exit();
+      return;
     }
-    post(result, alt);
-  })
+
+    var today = new Date();
+    if (today.getDay() != 1 && today.getDay() != 3 && today.getDate() != 5) {
+      process.exit();
+      return;
+    }
+
+    var request = require("request");
+    var result = 'Can\'t find today\'s comic!!!';
+    var alt;
+
+    request({
+      url: currentComicJsonUrl,
+      json: true
+    }, function (error, response, body) {
+
+      if (!error && response.statusCode === 200) {
+        result = body.img;
+        alt = "#" + body.num + " " + body.title + ": " + body.alt;
+        // Compare comic numbers
+        getSavedComicNumber(function finish(reply) {
+          console.log(reply + " vs " + body.num);
+          if (parseInt(reply, 10) !== body.num) {
+            console.log('trueeee!');
+            saveBodyToRedis(body, function finished(err, reply) {
+              console.log('Error: ' + err);
+              console.log('Reply: ' + reply);
+              post(result, alt);
+            });
+          }
+        });
+      } else
+        process.exit();
+    })
+  });
+}
+
+function saveBodyToRedis(body, finished) {
+  console.log('saveBodyToRedis()');
+  client.set(['month', body.month, 
+  'num', body.num, 
+  'year', body.year, 
+  'alt', body.alt, 
+  'img', body.img, 
+  'title', body.title, 
+  'day', body.day], function(err, reply) {
+    finished(err, reply);
+  });
+}
+
+function checkStop(finished) {
+  client.get('stop', function (err, reply) {
+    console.log(reply);
+    finished(reply === 'true');
+  });
+}
+
+function getSavedComicNumber(finish) {
+  client.get('num', function (err, reply) {
+    finish(reply);
+  });
 }
 
 function post(botResponse, alt) {
@@ -73,3 +118,7 @@ function post(botResponse, alt) {
 }
 
 postXkcd();
+
+client.on('connect', function () {
+  console.log('Redis connected');
+});
