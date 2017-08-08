@@ -13,80 +13,83 @@ var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd 
   "\n3) @xkcd [NUMBER] - show comic [NUMBER].";
 var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a list of commands";
 var currentComicJsonUrl = "https://xkcd.com/info.0.json";
-var comicNotFound = "Can't find that comic!!!";
 var stop = "Stop feeding xkcd!";
 var start = "Start feeding xkcd";
 var fiveMin = 5 * 60 * 1000; // in milliseconds
 var tempCurrent = -1;
 
-// Unused vars
+// Regular Expression
+var botRegexHi = new RegExp('^\@' + botName + ' hi$'),
+  botRegexHelp = new RegExp('^\@' + botName + ' help$'),
+  botRegexCurrent = new RegExp('^\@' + botName + ' current$'),
+  botRegexLatest = new RegExp('^\@' + botName + ' latest$'),
+  botRegexNewest = new RegExp('^\@' + botName + ' newest$'),
+  botRegexRandom = new RegExp('^\@' + botName + ' random$'),
+  botRegexData = new RegExp('^\@' + botName + ' data$'),
+  botRegexNumber = new RegExp('^\@' + botName + ' \\d+$'),
+  botRegexNotFound = new RegExp('^\@' + botName + '*'),
+  botRegexStop = new RegExp('^\@' + botName + ' stop123$'),
+  botRegexStart = new RegExp('^\@' + botName + ' start123$'),
+  regexNumbers = new RegExp('\\d+');
+
 var fileName = './bin/values.json';
 var data = fs.readFileSync(fileName);
 var file = JSON.parse(data);
 
 function respond() {
-  var request = JSON.parse(this.req.chunks[0]),
-    botRegexHi = new RegExp('^\@' + botName + ' hi$'),
-    botRegexHelp = new RegExp('^\@' + botName + ' help$'),
-    botRegexCurrent = new RegExp('^\@' + botName + ' current$'),
-    botRegexLatest = new RegExp('^\@' + botName + ' latest$'),
-    botRegexNewest = new RegExp('^\@' + botName + ' newest$'),
-    botRegexRandom = new RegExp('^\@' + botName + ' random$'),
-    botRegexData = new RegExp('^\@' + botName + ' data$'),
-    botRegexNumber = new RegExp('^\@' + botName + ' \\d+$'),
-    botRegexNotFound = new RegExp('^\@' + botName + '*'),
-    botRegexStop = new RegExp('^\@' + botName + ' stop123$'),
-    botRegexStart = new RegExp('^\@' + botName + ' start123$'),
-    regexNumbers = new RegExp('\\d+');
+  var request = JSON.parse(this.req.chunks[0]);
 
-  if (isStop()) {
-    if (botRegexStart.test(request.text)) {
-      saveStopToRedis(false);
-      post(start);
-    }
-    return;
-  }
-
-  this.res.writeHead(200);
-  if (request.text) {
-    if (botRegexHi.test(request.text)) {
-      post(hi());
-
-    } else if (botRegexHelp.test(request.text)) {
-      post(help);
-
-    } else if (botRegexCurrent.test(request.text) || botRegexLatest.test(request.text) || botRegexNewest.test(request.text)) {
-      postXkcd(currentComicJsonUrl, true);
-
-    } else if (botRegexRandom.test(request.text)) {
-      if (tempCurrent < 1)
-        postXkcdRandom();
-      else {
-        var randomNumber = getRandomArbitrary(1, tempCurrent);
-        postXkcd(getLinkForNumber(randomNumber));
+  checkStop(function finished(isStop) {
+    if (isStop != null && isStop) {
+      // Already stop, check if message is to restart
+      if (isStop === null)
+        saveStopToRedis(false);
+      else if (botRegexStart.test(request.text)) {
+        saveStopToRedis(false, function finished() {
+          post(start);
+        });
       }
-
-    } else if (botRegexNumber.test(request.text)) {
-      var numbers = request.text.match(regexNumbers);
-      var number = parseInt(numbers[0]);
-      postXkcd(getLinkForNumber(number));
-
-    } else if (botRegexStop.test(request.text)) {
-      saveStopToRedis(true);
-      post(stop);
-
-    } else if (botRegexData.test(request.text)) {
-      post(JSON.stringify(file));
-
-    } else if (botRegexNotFound.test(request.text)) {
-      // Check spam
-      if (!isSpam())
-        post(commandNotFound);
+      return;
     }
-  } else {
-    console.log("don't care");
-  }
-  this.res.end();
+
+    this.res.writeHead(200);
+    if (request.text) {
+      if (botRegexHi.test(request.text)) {
+        post(hi());
+
+      } else if (botRegexHelp.test(request.text)) {
+        post(help);
+
+      } else if (botRegexCurrent.test(request.text) || botRegexLatest.test(request.text) || botRegexNewest.test(request.text)) {
+        postXkcd(currentComicJsonUrl, true);
+
+      } else if (botRegexRandom.test(request.text)) {
+        if (tempCurrent < 1)
+          postXkcdRandom();
+        else {
+          var randomNumber = getRandomArbitrary(1, tempCurrent);
+          postXkcd(getLinkForNumber(randomNumber));
+        }
+
+      } else if (botRegexNumber.test(request.text)) {
+        var numbers = request.text.match(regexNumbers);
+        var number = parseInt(numbers[0]);
+        postXkcd(getLinkForNumber(number));
+
+      } else if (botRegexStop.test(request.text)) {
+        saveStopToRedis(true);
+        post(stop);
+
+      } else if (botRegexNotFound.test(request.text)) {
+        // Check spam
+        if (!isSpam())
+          post(commandNotFound);
+      }
+    } else {
+      console.log("don't care");
+    }
+    this.res.end();
+  });
 }
 
 function post(botResponse, alt) {
@@ -126,9 +129,9 @@ function post(botResponse, alt) {
   botReq.end(JSON.stringify(body));
 }
 
-function postXkcd(link, save) {
+function postXkcd(link, save, num) {
   var request = require("request");
-  var result = comicNotFound;
+  var result = comicNotFound(num);
   var alt;
 
   request({
@@ -199,14 +202,9 @@ function updateLocalJson() {
   }
 }
 
-function isStop() {
+function checkStop(finished) {
   client.get('stop', function (err, reply) {
-    console.log(reply);
-    if (reply === null) {
-      saveStopToRedis(false);
-      reply = false;
-    }
-    return reply;
+    finished(reply);
   });
 }
 
@@ -227,10 +225,17 @@ function saveBodyToRedis(body) {
   });
 }
 
-function saveStopToRedis(bool) {
+function saveStopToRedis(bool, finish) {
   client.set('stop', bool);
+  finish();
 }
 
+function comicNotFound(num) {
+  if (num === null)
+    return "Can't find comic!!!";
+  else
+    return "Can't find comic #" + num + "!!!";
+} 
 exports.respond = respond;
 client.on('connect', function () {
   console.log('Redis connected');
