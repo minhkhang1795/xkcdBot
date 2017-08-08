@@ -45,9 +45,8 @@ function respond() {
       if (isStop === null)
         saveStopToRedis(false);
       else if (botRegexStart.test(request.text)) {
-        saveStopToRedis(false, function finished() {
-          post(start);
-        });
+        saveStopToRedis(false);
+        post(start);
       }
       return;
     }
@@ -140,7 +139,7 @@ function postXkcd(link, save, num) {
 
     if (!error && response.statusCode === 200) {
       result = body.img;
-      alt = "#" + body.num + " " + body.title + ": " + body.alt;
+      alt = "#" + body.num + " " + body.title + ": " + body.alt + " [" + body.month + "/" + body.day + "/" + body.year + "]";
 
       if (save) {
         console.log('here');
@@ -225,9 +224,8 @@ function saveBodyToRedis(body) {
   });
 }
 
-function saveStopToRedis(bool, finish) {
+function saveStopToRedis(bool) {
   client.set('stop', bool);
-  finish();
 }
 
 function comicNotFound(num) {
