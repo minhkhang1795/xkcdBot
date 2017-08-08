@@ -222,7 +222,7 @@ function saveBodyToRedis(body) {
     console.log('err ' + err);
     console.log('reply: ' + reply);
   });
-  client.get('num', function (err, replt) {
+  client.get('num', function (err, reply) {
     console.log('num reply: ' + reply);
   });
 }
