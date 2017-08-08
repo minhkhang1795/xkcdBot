@@ -1,7 +1,8 @@
 var HTTPS = require('https');
 var hi = require('cool-ascii-faces');
 var fs = require('fs');
-var client = require('redis').createClient(process.env.REDIS_URL);
+var client = require("./client");
+
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
 var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd comic." +
@@ -35,10 +36,11 @@ function respond() {
     botRegexStart = new RegExp('^\@' + botName + ' start123$'),
     regexNumbers = new RegExp('\\d+');
 
-  if (file.stop) {
+  if (isStop()) {
     if (botRegexStart.test(request.text)) {
-      file.stop = false;
-      updateJson();
+      saveStopToRedis(false);
+      // file.stop = false;
+      // updateJson();
       post(start);
     }
     return;
@@ -69,8 +71,9 @@ function respond() {
       postXkcd(getLinkForNumber(number));
 
     } else if (botRegexStop.test(request.text)) {
-      file.stop = true;
-      updateJson();
+      saveStopToRedis(true);
+      // file.stop = true;
+      // updateJson();
       post(stop);
 
     } else if (botRegexData.test(request.text)) {
@@ -106,7 +109,7 @@ function post(botResponse, alt) {
 
   console.log('sending ' + botResponse + ' to ' + botID);
   var botReq = HTTPS.request(options, function (res) {
-    if (res.statusCode == 202) {
+    if (res.statusCode === 202) {
       // Success
       if (alt != null)
         post(alt);
@@ -124,7 +127,7 @@ function post(botResponse, alt) {
   botReq.end(JSON.stringify(body));
 }
 
-function postXkcd(link) {
+function postXkcd(link, save) {
   var request = require("request");
   var result = comicNotFound;
   var alt;
@@ -137,6 +140,9 @@ function postXkcd(link) {
     if (!error && response.statusCode === 200) {
       result = body.img;
       alt = "#" + body.num + " " + body.title + ": " + body.alt;
+
+      if (save && body.num != null)
+        saveBodyToRedis(body);
     }
     post(result, alt);
   })
@@ -171,25 +177,54 @@ function getLinkForNumber(number) {
 function isSpam() {
   var oldTimeStamp = file.spamCheckInterval.timeStamp;
   var currentTimeStamp = new Date().getTime();
-  if (oldTimeStamp == null || currentTimeStamp - oldTimeStamp > fiveMin) {
+  if (oldTimeStamp === null || currentTimeStamp - oldTimeStamp > fiveMin) {
     file.spamCheckInterval.timeStamp = currentTimeStamp;
-    updateJson();
+    updateLocalJson();
     return false;
   }
   return true;
 }
 
-function updateJson() {
+function updateLocalJson() {
   fs.writeFile(fileName, JSON.stringify(file), finished);
   function finished(err) {
     console.log('Error: ' + err);
     if (err)
       return console.log(err);
     else {
-    console.log(JSON.stringify(file));
-    console.log(fileName + ' updated');
+      console.log(JSON.stringify(file));
+      console.log(fileName + ' updated');
     }
   }
 }
 
+function saveBodyToRedis(body) {
+  client.set('month', body.month);
+  client.set('num', body.num);
+  client.set('year', body.year);
+  client.set('alt', body.alt);
+  client.set('img', body.img);
+  client.set('title', body.title);
+  client.set('day', body.day);
+}
+
+function saveStopToRedis(bool) {
+  client.set('stop', bool);
+}
+
+function isStop() {
+  var stopBool = client.get('stop');
+  if (stopBool == null) {
+    saveStopToRedis(false);
+    stopBool = false;
+  }
+  console.log(stopBool);
+  return stopBool;
+}
+
 exports.respond = respond;
+exports.index = function (req, res) {
+  // client.get("test", function (err, reply) {
+  //   console.log(reply.toString());
+  // });
+};

@@ -1,4 +1,7 @@
 {
+    "spamCheckInterval": {
+        "timeStamp": null
+    },
     "current": {
         "month": "8",
         "num": 1871,
@@ -11,9 +14,6 @@
         "img": "https: //imgs.xkcd.com/comics/bun_alert.png",
         "title": "Bun Alert",
         "day": "2"
-    },
-    "spamCheckInterval": {
-        "timeStamp": null
     },
     "stop": false
 }
