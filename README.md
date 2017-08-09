@@ -142,7 +142,7 @@ You can freely edit your bot in `bot.js` file.
 
 # Note 
   * This github was cloned from the original [GroupMe Bot Tutorial](https://github.com/groupme/bot-tutorial-nodejs)
-  * The project uses [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) and [Heroku Redis](https://elements.heroku.com/addons/heroku-redis), which requires Credit Card Validation. Charges may apply if your usages exceed free/hobby limits.
+  * The project uses [Heroku Scheduler](https://elements.heroku.com/addons/scheduler) and [Heroku Redis](https://elements.heroku.com/addons/heroku-redis), which requires Credit Card Validation. Charges may apply if your usages exceed free limits.
 
 # MIT License
 
