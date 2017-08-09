@@ -41,7 +41,7 @@ function respond() {
   this.res.writeHead(200);
   checkStop(function finished(isStop) {
     if (isStop != null && isStop) {
-      // Already stop, check if message is to restart
+      // Already stopped, check if message is to restart
       if (isStop === null)
         saveStopToRedis(false);
       else if (botRegexStart.test(request.text)) {
