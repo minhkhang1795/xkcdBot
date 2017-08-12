@@ -31,7 +31,8 @@ var botRegexHi = new RegExp('^\@' + botName + ' hi$'),
   botRegexNotFound = new RegExp('^\@' + botName + '*'),
   botRegexStop = new RegExp('^\@' + botName + ' stop123$'),
   botRegexStart = new RegExp('^\@' + botName + ' start123$'),
-  regexNumbers = new RegExp('\\d+');
+  regexNumbers = new RegExp('\\d+'),
+  regexCantFind = new RegExp("Can't find");
 
 var fileName = './bin/values.json';
 var data = fs.readFileSync(fileName);
@@ -104,7 +105,7 @@ function post(botResponse, alt, request, isXkcd) {
 
   attachments = [];
   if (isXkcd) { 
-    if (alt == null) {
+    if (alt == null && !regexCantFind.test(botResponse)) {
       var temp = {
         "type": "mentions",
         "user_ids": [zoID],
@@ -261,7 +262,7 @@ function saveStopToRedis(bool) {
 
 function comicNotFound(num) {
   if (num == null)
-    return "Can't find comic !!!";
+    return "Can't find that comic !!!";
   else
     return "Can't find comic #" + num + " !!!";
 }

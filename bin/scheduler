@@ -8,6 +8,7 @@ var fileName = './values.json';
 var file = require(fileName);
 var client = require('redis').createClient(process.env.REDIS_URL);
 
+
 function postXkcd() {
   checkStop(function finished(isStop) {
     if (isStop) {
@@ -30,7 +31,7 @@ function postXkcd() {
         // Compare comic's numbers
         getSavedComicNumber(function finish(reply) {
           console.log(reply + " vs " + body.num);
-          if (parseInt(reply, 10) !== body.num || true) {
+          if (parseInt(reply, 10) != body.num || true) {
             saveBodyToRedis(body, function finished(err, reply) {
               if (err)
                 console.log('Error: ' + err);
