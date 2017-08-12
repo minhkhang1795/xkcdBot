@@ -81,7 +81,7 @@ function respond() {
 
       } else if (botRegexNotFound.test(request.text)) {
         // Check spam
-        if (!isSpam() && request.user_id != zoID)
+        if (request.user_id != zoID && !isSpam())
           post(commandNotFound, null, request);
       }
     } else {
