@@ -31,7 +31,7 @@ function postXkcd() {
         // Compare comic's numbers
         getSavedComicNumber(function finish(reply) {
           console.log(reply + " vs " + body.num);
-          if (parseInt(reply, 10) != body.num || true) {
+          if (parseInt(reply, 10) != body.num) {
             saveBodyToRedis(body, function finished(err, reply) {
               if (err)
                 console.log('Error: ' + err);
