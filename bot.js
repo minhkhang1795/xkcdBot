@@ -5,6 +5,7 @@ var client = require('redis').createClient(process.env.REDIS_URL);
 
 var botID = process.env.BOT_ID;
 var botName = process.env.BOT_NAME;
+var zoID = "46185459";
 
 var help = "Hi,\n\nI'm xkcd. I'm here to make sure you guys get the newest xkcd comic." +
   "\n\nType '@xkcd help' for a list of commands:" +
@@ -102,7 +103,7 @@ function post(botResponse, alt, senderId) {
   };
 
   attachments = [];
-  if (senderId !== null) {
+  if (senderId !== null && senderId !== zoID) {
     var temp = {
       "type": "mentions",
       "user_ids": [senderId],
