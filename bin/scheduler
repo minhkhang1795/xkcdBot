@@ -103,6 +103,7 @@ function post(botResponse, alt) {
     "attachments": attachments
   };
 
+  console.log('body ' + body);
   var HTTPS = require('https');
   console.log('sending ' + botResponse + ' to ' + botID);
   var botReq = HTTPS.request(options, function (res) {
