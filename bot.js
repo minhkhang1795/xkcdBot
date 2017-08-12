@@ -59,20 +59,20 @@ function respond() {
         post(help, null, request);
 
       } else if (botRegexCurrent.test(request.text) || botRegexLatest.test(request.text) || botRegexNewest.test(request.text)) {
-        postXkcd(currentComicJsonUrl, true);
+        postXkcd(currentComicJsonUrl, true, null, request);
 
       } else if (botRegexRandom.test(request.text)) {
         if (tempCurrent < 1)
           postXkcdRandom();
         else {
           var randomNumber = getRandomArbitrary(1, tempCurrent);
-          postXkcd(getLinkForNumber(randomNumber));
+          postXkcd(getLinkForNumber(randomNumber), false, null, request);
         }
 
       } else if (botRegexNumber.test(request.text)) {
         var numbers = request.text.match(regexNumbers);
         var number = parseInt(numbers[0]);
-        postXkcd(getLinkForNumber(number), false, number);
+        postXkcd(getLinkForNumber(number), false, number, request);
 
       } else if (botRegexStop.test(request.text)) {
         saveStopToRedis(true);
@@ -80,7 +80,7 @@ function respond() {
 
       } else if (botRegexNotFound.test(request.text)) {
         // Check spam
-        if (!isSpam() && request.user_id != zoID)
+        if (!isSpam() && request.user_id !== zoID)
           post(commandNotFound, null, request);
       }
     } else {
@@ -103,8 +103,8 @@ function post(botResponse, alt, request) {
   };
 
   attachments = [];
-  if (request != null) {
-    
+  if (request !== null) {
+    if (request.user_id !== zoId || request.user_id === zoID && alt === null) {
       var temp = {
         "type": "mentions",
         "user_ids": [request.sender_id],
@@ -114,8 +114,8 @@ function post(botResponse, alt, request) {
       };
       botResponse = "@" + request.name + " " + botResponse;
       attachments.push(temp);
-    
-  } 
+    }
+  }
 
   body = {
     "bot_id": botID,
@@ -128,7 +128,7 @@ function post(botResponse, alt, request) {
     if (res.statusCode === 202) {
       // Success
       if (alt != null)
-        post(alt);
+        post(alt, null, request);
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
     }
@@ -143,7 +143,7 @@ function post(botResponse, alt, request) {
   botReq.end(JSON.stringify(body));
 }
 
-function postXkcd(link, save, num) {
+function postXkcd(link, save, num, callBackRequest) {
   var request = require("request");
   var result = comicNotFound(num);
   var alt;
@@ -162,11 +162,11 @@ function postXkcd(link, save, num) {
         saveBodyToRedis(body);
       }
     }
-    post(result, alt);
+    post(result, alt, callBackRequest);
   })
 }
 
-function postXkcdRandom() {
+function postXkcdRandom(callBackRequest) {
   var request = require("request");
   var result = 1800;
 
@@ -180,7 +180,7 @@ function postXkcdRandom() {
 
     tempCurrent = result;
     var randomNumber = getRandomArbitrary(1, tempCurrent);
-    postXkcd(getLinkForNumber(randomNumber));
+    postXkcd(getLinkForNumber(randomNumber), false, null, callBackRequest);
   })
 }
 
