@@ -104,7 +104,7 @@ function post(botResponse, alt, request) {
 
   attachments = [];
   if (request !== null) {
-    if (request.user_id !== zoId || request.user_id === zoID && alt === null) {
+    if (request.user_id !== zoID || request.user_id === zoID && alt === null) {
       var temp = {
         "type": "mentions",
         "user_ids": [request.sender_id],
