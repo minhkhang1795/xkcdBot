@@ -85,7 +85,7 @@ function post(botResponse, alt) {
   };
 
   attachments = [];
-  if (alt === null) {
+  if (alt == null) {
     var temp = {
       "type": "mentions",
       "user_ids": [zoID],

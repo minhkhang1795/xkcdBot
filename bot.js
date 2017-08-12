@@ -104,7 +104,7 @@ function post(botResponse, alt, request, isXkcd) {
 
   attachments = [];
   if (isXkcd) { 
-    if (alt === null) {
+    if (alt == null) {
       var temp = {
         "type": "mentions",
         "user_ids": [zoID],
@@ -205,7 +205,7 @@ function getLinkForNumber(number) {
 function isSpam() {
   var oldTimeStamp = file.spamCheckInterval.timeStamp;
   var currentTimeStamp = new Date().getTime();
-  if (oldTimeStamp === null || currentTimeStamp - oldTimeStamp > fiveMin) {
+  if (oldTimeStamp == null || currentTimeStamp - oldTimeStamp > fiveMin) {
     file.spamCheckInterval.timeStamp = currentTimeStamp;
     updateLocalJson();
     return false;
@@ -260,7 +260,7 @@ function saveStopToRedis(bool) {
 }
 
 function comicNotFound(num) {
-  if (num === null)
+  if (num == null)
     return "Can't find comic !!!";
   else
     return "Can't find comic #" + num + " !!!";
