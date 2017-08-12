@@ -16,7 +16,7 @@ var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a 
 var currentComicJsonUrl = "https://xkcd.com/info.0.json";
 var stop = "Stop feeding xkcd!";
 var start = "Start feeding xkcd";
-var fiveMin = 5 * 60 * 1000; // in milliseconds
+var fiveMin = 0; //5 * 60 * 1000; // in milliseconds
 var tempCurrent = -1;
 
 // Regular Expression
@@ -81,7 +81,7 @@ function respond() {
       } else if (botRegexNotFound.test(request.text)) {
         // Check spam
         if (!isSpam())
-          post(commandNotFound, null, request.sender_id);
+          post(commandNotFound, null, request);
       }
     } else {
       console.log("don't care");
@@ -90,7 +90,7 @@ function respond() {
   this.res.end();
 }
 
-function post(botResponse, alt, senderId) {
+function post(botResponse, alt, request) {
   var options, body, attachments;
 
   options = {
@@ -103,15 +103,19 @@ function post(botResponse, alt, senderId) {
   };
 
   attachments = [];
-  if (senderId !== null && senderId !== zoID) {
-    var temp = {
-      "type": "mentions",
-      "user_ids": [senderId],
-      "loci": [
-        [0, 3]
-      ]
-    };
-    attachments.push(temp);
+  if (request != null) {
+    if (request.sender_type === "user") {
+      var temp = {
+        "type": "mentions",
+        "user_ids": [request.sender_id],
+        "loci": [
+          [0, request.name.length]
+        ]
+      };
+      attachments.push(temp);
+    } else {
+      
+    }
   } 
 
   body = {
