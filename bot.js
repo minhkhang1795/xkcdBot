@@ -41,7 +41,7 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]);
   this.res.writeHead(200);
   checkStop(function finished(isStop) {
-    if (isStop !== null && isStop) {
+    if (isStop) {
       // Already stopped, check if message is to restart
       if (botRegexStart.test(request.text)) {
         saveStopToRedis(false);
@@ -104,7 +104,7 @@ function post(botResponse, alt, request, isXkcd) {
 
   attachments = [];
   if (isXkcd) { 
-    if (alt == null) {
+    if (!alt) {
       var temp = {
         "type": "mentions",
         "user_ids": [zoID],
@@ -115,7 +115,7 @@ function post(botResponse, alt, request, isXkcd) {
       botResponse = "@Zo " + botResponse;
       attachments.push(temp);
     }
-  } else if (request !== null) {
+  } else if (request) {
       var temp = {
         "type": "mentions",
         "user_ids": [request.sender_id],
@@ -137,7 +137,7 @@ function post(botResponse, alt, request, isXkcd) {
   var botReq = HTTPS.request(options, function (res) {
     if (res.statusCode === 202) {
       // Success
-      if (alt != null)
+      if (!alt)
         post(alt, null, request, true);
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
@@ -205,7 +205,7 @@ function getLinkForNumber(number) {
 function isSpam() {
   var oldTimeStamp = file.spamCheckInterval.timeStamp;
   var currentTimeStamp = new Date().getTime();
-  if (oldTimeStamp == null || currentTimeStamp - oldTimeStamp > fiveMin) {
+  if (!oldTimeStamp || currentTimeStamp - oldTimeStamp > fiveMin) {
     file.spamCheckInterval.timeStamp = currentTimeStamp;
     updateLocalJson();
     return false;
@@ -260,7 +260,7 @@ function saveStopToRedis(bool) {
 }
 
 function comicNotFound(num) {
-  if (num == null)
+  if (!num)
     return "Can't find comic !!!";
   else
     return "Can't find comic #" + num + " !!!";
