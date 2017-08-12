@@ -80,7 +80,7 @@ function respond() {
 
       } else if (botRegexNotFound.test(request.text)) {
         // Check spam
-        if (!isSpam())
+        if (!isSpam() && request.user_id != zoID)
           post(commandNotFound, null, request);
       }
     } else {
@@ -104,7 +104,7 @@ function post(botResponse, alt, request) {
 
   attachments = [];
   if (request != null) {
-    if (request.user_id !== zoID) {
+    
       var temp = {
         "type": "mentions",
         "user_ids": [request.sender_id],
@@ -114,9 +114,7 @@ function post(botResponse, alt, request) {
       };
       botResponse = "@" + request.name + " " + botResponse;
       attachments.push(temp);
-    } else {
-      
-    }
+    
   } 
 
   body = {
