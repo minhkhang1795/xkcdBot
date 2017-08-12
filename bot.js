@@ -90,7 +90,7 @@ function respond() {
   this.res.end();
 }
 
-function post(botResponse, alt, request) {
+function post(botResponse, alt, request, isXkcd) {
   var options, body, attachments;
 
   options = {
@@ -103,8 +103,19 @@ function post(botResponse, alt, request) {
   };
 
   attachments = [];
-  if (request !== null) {
-    if (request.user_id !== zoID || request.user_id === zoID && alt === null) {
+  if (isXkcd) { 
+    if (alt === null) {
+      var temp = {
+        "type": "mentions",
+        "user_ids": [zoID],
+        "loci": [
+          [0, 3]
+        ]
+      };
+      botResponse = "@Zo " + botResponse;
+      attachments.push(temp);
+    }
+  } else if (request !== null) {
       var temp = {
         "type": "mentions",
         "user_ids": [request.sender_id],
@@ -114,7 +125,6 @@ function post(botResponse, alt, request) {
       };
       botResponse = "@" + request.name + " " + botResponse;
       attachments.push(temp);
-    }
   }
 
   body = {
@@ -128,7 +138,7 @@ function post(botResponse, alt, request) {
     if (res.statusCode === 202) {
       // Success
       if (alt != null)
-        post(alt, null, request);
+        post(alt, null, request, true);
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
     }
@@ -162,7 +172,7 @@ function postXkcd(link, save, num, callBackRequest) {
         saveBodyToRedis(body);
       }
     }
-    post(result, alt, callBackRequest);
+    post(result, alt, callBackRequest, true);
   })
 }
 
