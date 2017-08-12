@@ -10,7 +10,7 @@ var client = require('redis').createClient(process.env.REDIS_URL);
 
 function postXkcd() {
   checkStop(function finished(isStop) {
-    if (isStop != null && isStop) {
+    if (isStop) {
       process.exit();
       return;
     }

@@ -16,7 +16,7 @@ var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a 
 var currentComicJsonUrl = "https://xkcd.com/info.0.json";
 var stop = "Stop feeding xkcd!";
 var start = "Start feeding xkcd";
-var fiveMin = 5 * 60 * 1000; // in milliseconds
+var fiveMin = 0; //5 * 60 * 1000; // in milliseconds
 var tempCurrent = -1;
 
 // Regular Expression
@@ -41,7 +41,7 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]);
   this.res.writeHead(200);
   checkStop(function finished(isStop) {
-    if (isStop) {
+    if (isStop !== null && isStop) {
       // Already stopped, check if message is to restart
       if (botRegexStart.test(request.text)) {
         saveStopToRedis(false);
@@ -104,7 +104,7 @@ function post(botResponse, alt, request, isXkcd) {
 
   attachments = [];
   if (isXkcd) { 
-    if (!alt) {
+    if (alt == null) {
       var temp = {
         "type": "mentions",
         "user_ids": [zoID],
@@ -115,7 +115,7 @@ function post(botResponse, alt, request, isXkcd) {
       botResponse = "@Zo " + botResponse;
       attachments.push(temp);
     }
-  } else if (request) {
+  } else if (request !== null) {
       var temp = {
         "type": "mentions",
         "user_ids": [request.sender_id],
@@ -137,7 +137,7 @@ function post(botResponse, alt, request, isXkcd) {
   var botReq = HTTPS.request(options, function (res) {
     if (res.statusCode === 202) {
       // Success
-      if (!alt)
+      if (alt != null)
         post(alt, null, request, true);
     } else {
       console.log('rejecting bad status code ' + res.statusCode);
@@ -205,7 +205,7 @@ function getLinkForNumber(number) {
 function isSpam() {
   var oldTimeStamp = file.spamCheckInterval.timeStamp;
   var currentTimeStamp = new Date().getTime();
-  if (!oldTimeStamp || currentTimeStamp - oldTimeStamp > fiveMin) {
+  if (oldTimeStamp == null || currentTimeStamp - oldTimeStamp > fiveMin) {
     file.spamCheckInterval.timeStamp = currentTimeStamp;
     updateLocalJson();
     return false;
@@ -260,7 +260,7 @@ function saveStopToRedis(bool) {
 }
 
 function comicNotFound(num) {
-  if (!num)
+  if (num == null)
     return "Can't find comic !!!";
   else
     return "Can't find comic #" + num + " !!!";
