@@ -104,8 +104,8 @@ function post(botResponse, alt, request, isXkcd) {
   };
 
   attachments = [];
-  if (isXkcd) { 
-    if (alt == null && !regexCantFind.test(botResponse)) {
+  if (isXkcd && !regexCantFind.test(botResponse)) { 
+    if (alt == null) {
       var temp = {
         "type": "mentions",
         "user_ids": [zoID],
