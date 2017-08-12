@@ -40,17 +40,16 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]);
   this.res.writeHead(200);
   checkStop(function finished(isStop) {
-    if (isStop != null && isStop) {
+    if (isStop !== null && isStop) {
       // Already stopped, check if message is to restart
-      if (isStop === null)
-        saveStopToRedis(false);
-      else if (botRegexStart.test(request.text)) {
+      if (botRegexStart.test(request.text)) {
         saveStopToRedis(false);
         post(start);
       }
       return;
     }
 
+    // If not stop
     if (request.text) {
       if (botRegexHi.test(request.text)) {
         post(hi());
@@ -81,7 +80,7 @@ function respond() {
       } else if (botRegexNotFound.test(request.text)) {
         // Check spam
         if (!isSpam())
-          post(commandNotFound);
+          post(commandNotFound, null, request.sender_id);
       }
     } else {
       console.log("don't care");
@@ -90,8 +89,8 @@ function respond() {
   this.res.end();
 }
 
-function post(botResponse, alt) {
-  var options, body;
+function post(botResponse, alt, senderId) {
+  var options, body, attachments;
 
   options = {
     hostname: 'api.groupme.com',
@@ -102,9 +101,22 @@ function post(botResponse, alt) {
     }
   };
 
+  attachments = [];
+  if (senderId !== null) {
+    var temp = {
+      "type": "mentions",
+      "user_ids": [senderId],
+      "loci": [
+        [0, 3]
+      ]
+    };
+    attachments.push(temp);
+  } 
+
   body = {
     "bot_id": botID,
-    "text": botResponse
+    "text": botResponse,
+    "attachments": attachments
   };
 
   console.log('sending ' + botResponse + ' to ' + botID);
@@ -139,7 +151,7 @@ function postXkcd(link, save, num) {
 
     if (!error && response.statusCode === 200) {
       result = body.img;
-      alt = "#" + body.num + " " + body.title + ": " + body.alt + " [" + body.month + "/" + body.day + "/" + body.year + "]";
+      alt = "@Zo #" + body.num + " " + body.title + ": " + body.alt + " [" + body.month + "/" + body.day + "/" + body.year + "]";
 
       if (save) {
         console.log('here');
