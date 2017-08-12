@@ -73,7 +73,7 @@ function getSavedComicNumber(finish) {
 }
 
 function post(botResponse, alt) {
-  var options, body;
+  var options, body, attachments;
 
   options = {
     hostname: 'api.groupme.com',
