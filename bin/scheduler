@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var botID = process.env.BOT_ID;
+var zoID = "46185459";
 var currentComicJsonUrl = 'https://xkcd.com/info.0.json';
 var fs = require('fs');
 var fileName = './values.json';
@@ -82,6 +83,19 @@ function post(botResponse, alt) {
       'Content-Type': 'application/json',
     }
   };
+
+  attachments = [];
+  if (alt === null) {
+    var temp = {
+      "type": "mentions",
+      "user_ids": [zoID],
+      "loci": [
+        [0, 3]
+      ]
+    };
+    botResponse = "@Zo " + botResponse;
+    attachments.push(temp);
+  }
 
   body = {
     "bot_id": botID,
