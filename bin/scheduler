@@ -99,7 +99,8 @@ function post(botResponse, alt) {
 
   body = {
     "bot_id": botID,
-    "text": botResponse
+    "text": botResponse,
+    "attachments": attachments
   };
 
   var HTTPS = require('https');
