@@ -53,10 +53,10 @@ function respond() {
     // If not stop
     if (request.text) {
       if (botRegexHi.test(request.text)) {
-        post(hi());
+        post(hi(), null, request);
 
       } else if (botRegexHelp.test(request.text)) {
-        post(help);
+        post(help, null, request);
 
       } else if (botRegexCurrent.test(request.text) || botRegexLatest.test(request.text) || botRegexNewest.test(request.text)) {
         postXkcd(currentComicJsonUrl, true);
@@ -109,9 +109,10 @@ function post(botResponse, alt, request) {
         "type": "mentions",
         "user_ids": [request.sender_id],
         "loci": [
-          [0, request.name.length]
+          [0, request.name.length + 1]
         ]
       };
+      botResponse = "@" + request.name + " " + botResponse;
       attachments.push(temp);
     } else {
       
