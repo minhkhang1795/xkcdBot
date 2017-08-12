@@ -41,7 +41,7 @@ function respond() {
   var request = JSON.parse(this.req.chunks[0]);
   this.res.writeHead(200);
   checkStop(function finished(isStop) {
-    if (isStop !== null && isStop) {
+    if (isStop != null && isStop) {
       // Already stopped, check if message is to restart
       if (botRegexStart.test(request.text)) {
         saveStopToRedis(false);
@@ -80,7 +80,7 @@ function respond() {
 
       } else if (botRegexNotFound.test(request.text)) {
         // Check spam
-        if (!isSpam() && request.user_id !== zoID)
+        if (!isSpam() && request.user_id != zoID)
           post(commandNotFound, null, request);
       }
     } else {
@@ -115,7 +115,7 @@ function post(botResponse, alt, request, isXkcd) {
       botResponse = "@Zo " + botResponse;
       attachments.push(temp);
     }
-  } else if (request !== null) {
+  } else if (request != null) {
       var temp = {
         "type": "mentions",
         "user_ids": [request.sender_id],
