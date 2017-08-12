@@ -165,7 +165,7 @@ function postXkcd(link, save, num, callBackRequest) {
 
     if (!error && response.statusCode === 200) {
       result = body.img;
-      alt = "@Zo #" + body.num + " " + body.title + ": " + body.alt + " [" + body.month + "/" + body.day + "/" + body.year + "]";
+      alt = "#" + body.num + " " + body.title + ": " + body.alt + " [" + body.month + "/" + body.day + "/" + body.year + "]";
 
       if (save) {
         console.log('here');
