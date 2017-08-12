@@ -16,7 +16,7 @@ var commandNotFound = "Sorry. Command not found. Please type '@xkcd help' for a 
 var currentComicJsonUrl = "https://xkcd.com/info.0.json";
 var stop = "Stop feeding xkcd!";
 var start = "Start feeding xkcd";
-var fiveMin = 0; //5 * 60 * 1000; // in milliseconds
+var fiveMin = 5 * 60 * 1000; // in milliseconds
 var tempCurrent = -1;
 
 // Regular Expression
